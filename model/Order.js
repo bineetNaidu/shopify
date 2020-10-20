@@ -26,9 +26,6 @@ const OrderSchema = new Schema({
     required: true,
     default: false,
   },
-  paidAt: {
-    type: Date,
-  },
   isDelivered: {
     type: Boolean,
     required: true,
