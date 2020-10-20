@@ -8,7 +8,8 @@
     "server": "node server.js",
     "dev-server": "nodemon server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "seeds" :"node seeds/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/bineetNaidu/shopify#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "faker": "^5.1.0",
     "mongoose": "^5.10.9",
     "morgan": "^1.10.0"
   },
