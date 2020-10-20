@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createProduct,
+  deleteProduct,
   getProduct,
   getProducts,
   updateProduct,
@@ -14,6 +15,7 @@ router.route('/').get(catchAsync(getProducts)).post(catchAsync(createProduct));
 router
   .route('/:pID')
   .get(catchAsync(getProduct))
-  .put(catchAsync(updateProduct));
+  .put(catchAsync(updateProduct))
+  .delete(catchAsync(deleteProduct));
 
 export default router;

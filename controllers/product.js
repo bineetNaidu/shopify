@@ -34,3 +34,9 @@ export const updateProduct = async (req, res) => {
   );
   res.redirect(`/api/p/${product._id}`);
 };
+
+export const deleteProduct = async (req, res) => {
+  const product = await Product.findOne({ _id: req.params.pID });
+  await product.remove();
+  res.redirect(`/api/p`);
+};
