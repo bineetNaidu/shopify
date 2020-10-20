@@ -6,11 +6,11 @@ const ProductSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
   },
-  admin: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'User',
-  },
+  // admin: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: 'User',
+  // },
   name: {
     type: String,
     required: true,
