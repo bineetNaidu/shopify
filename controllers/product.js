@@ -19,7 +19,9 @@ export const createProduct = async (req, res) => {
 };
 
 export const getProduct = async (req, res) => {
-  const product = await Product.findOne({ _id: req.params.pID });
+  const product = await Product.findOne({ _id: req.params.pID }).populate(
+    'reviews'
+  );
   res.json({
     success: true,
     length: product.length,
