@@ -1,4 +1,3 @@
-import Category from '../model/Category.js';
 import Product from '../model/Product.js';
 
 export const getProducts = async (_, res) => {
@@ -11,21 +10,12 @@ export const getProducts = async (_, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  if (req.query.c) {
-    const category = await Category.findOne({ _id: req.query.c });
-    const newProduct = { ...req.body, category: category._id };
-    const product = new Product(newProduct);
-    category.products.push(product._id);
-    await category.save();
-    await product.save();
-    res.json({
-      success: true,
-      length: product.length,
-      product,
-    });
-  } else {
-    res.json({ success: false, msg: 'No Category Found' });
-  }
+  const product = await new Product(req.body).save();
+  res.json({
+    success: true,
+    length: product.length,
+    product,
+  });
 };
 
 export const getProduct = async (req, res) => {
@@ -42,9 +32,5 @@ export const updateProduct = async (req, res) => {
     { _id: req.params.pID },
     { ...req.body }
   );
-  res.json({
-    success: true,
-    length: product.length,
-    product,
-  });
+  res.redirect(`/api/p/${product._id}`);
 };
