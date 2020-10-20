@@ -27,3 +27,24 @@ export const createProduct = async (req, res) => {
     res.json({ success: false, msg: 'No Category Found' });
   }
 };
+
+export const getProduct = async (req, res) => {
+  const product = await Product.findOne({ _id: req.params.pID });
+  res.json({
+    success: true,
+    length: product.length,
+    product,
+  });
+};
+
+export const updateProduct = async (req, res) => {
+  const product = await Product.findOneAndUpdate(
+    { _id: req.params.pID },
+    { ...req.body }
+  );
+  res.json({
+    success: true,
+    length: product.length,
+    product,
+  });
+};
