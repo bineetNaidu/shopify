@@ -1,0 +1,22 @@
+.shops {
+  display: flex;
+  margin: 10px 0;
+  padding: 0 18px;
+  width: 100%;
+}
+
+.shops_category {
+  flex: 0.15;
+}
+
+.shops__items {
+  flex: 0.95;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.shops__item {
+  min-width: 320px;
+  flex: 0.5;
+  margin: 0 15px;
+}

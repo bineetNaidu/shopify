@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
-import ProductLists from './ProductLists'
+import ProductCard from './ProductCard'
 
 // Statics
 import "./Home.css";
@@ -47,7 +47,7 @@ const Home = () => {
         <Link to="/s">View all</Link>
       </div>
       <div className="home__productLists">
-        {products.map(p=> <ProductLists key={p._id} {...p}  />)}
+        {products.map(p=> <ProductCard key={p._id} {...p}  />)}
       </div>
     </div>
   )
