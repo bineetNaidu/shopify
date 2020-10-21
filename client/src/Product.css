@@ -70,3 +70,51 @@
   padding: 2px 15px;
   border: 1px solid #c7c6c6;
 }
+
+.product__dummy {
+  display: flex;
+  margin-top: 3rem;
+  padding: 15px 0;
+}
+
+.dummy__left {
+  border-right: 1px solid #0e0e0e;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
+
+.dummy__right {
+  border-left: 1px solid #0e0e0e;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
+
+.dummy__context {
+  margin-bottom: 20px;
+}
+
+.dummy__head {
+  font-size: 14px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: rgba(14, 14, 14, 0.67);
+  margin-bottom: 0;
+}
+
+.dummy__body {
+  width: 253px;
+  opacity: 0.67;
+  font-size: 14px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 20px;
+  letter-spacing: normal;
+  color: #0e0e0e;
+}

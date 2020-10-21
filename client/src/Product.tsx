@@ -73,6 +73,45 @@ const Product: React.FC = () => {
             </div>
             
           </div>
+
+          <div className="product__dummy">
+            <div className="dummy__left">
+              <div className="dummy__context">
+                <h4 className="dummy__head">
+                  PRODUCT DESCRIPTION
+                </h4>
+                <p className="dummy__body">
+                  This Official Shopify is what you need to be motivated to work. Pair it with comfy bottoms to attend all your virtual meetings in style.
+                </p>
+              </div>
+              <div className="dummy__context">
+                <h4 className="dummy__head">
+                  REGULAR FIT
+                </h4>
+                <p className="dummy__body">
+                  Fits just right - not too tight, not too loose.
+                </p>
+              </div>
+            </div>
+            <div className="dummy__right">
+              <div className="dummy__context">
+                <h4 className="dummy__head">
+                  SHOPIFY COINS INFO
+                </h4>
+                <p className="dummy__body">
+                  Shopify coins cannot be redeemed on already discounted products
+                </p>
+              </div>
+              <div className="dummy__context">
+                <h4 className="dummy__head">
+                  15 DAY RETURNS
+                </h4>
+                <p className="dummy__body">
+                  If you arent satisfied with this product, return it for a refund.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       )}  
     </>
