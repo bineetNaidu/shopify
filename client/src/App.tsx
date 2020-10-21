@@ -1,14 +1,18 @@
 import React from 'react'
+import Header from './Header';
+import { Switch, Route } from "react-router-dom"
+import Home from './Home';
 
 // statics
 import './App.css';
-import Header from './Header';
 
 const App = () => {
   return (
     <div>
       <Header />
-      <h1>Let's Build Shopify.</h1>
+      <Switch>
+        <Route exact path='/' component={Home} />
+      </Switch>
     </div>
   )
 }
