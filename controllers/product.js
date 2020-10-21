@@ -22,10 +22,17 @@ export const getProduct = async (req, res) => {
   const product = await Product.findOne({ _id: req.params.pID }).populate(
     'reviews'
   );
+  let rating = 0;
+  for (let review of product.reviews) {
+    rating += review.rating;
+  }
+
+  const avgRating = Math.floor(rating / product.reviews.length);
   res.json({
     success: true,
     length: product.length,
     product,
+    avgRating,
   });
 };
 
