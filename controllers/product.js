@@ -31,10 +31,8 @@ export const getProduct = async (req, res) => {
   res.json({
     success: true,
     length: product.length,
-    product: {
-      ...product,
-      avgRating,
-    },
+    product,
+    avgRating,
   });
 };
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from "react-router-dom"
 
 // Statics
 import "./ProductCard.css"
@@ -23,9 +24,13 @@ interface Props {
   // __v: string
 }
 
-const ProductCard : React.FC <Props> = ({images,name,price,varified, reviews}) => {
+const ProductCard: React.FC<Props> = ({ images, name, price, varified, reviews, _id }) => {
+
+  const history = useHistory()
+  const handleClick = () => history.push(`/s/${_id}`)
+
   return (
-    <div className="productCard">
+    <div className="productCard" onClick={handleClick} >
       <img src={images[0]} alt={name} className="productCard__image" />
       <div className="productCard__footer">
         <p className="productCard__name">{name}</p>
