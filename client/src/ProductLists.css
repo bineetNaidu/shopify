@@ -3,12 +3,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  margin: 10px;
+  margin: 20px;
   padding: 20px;
   width: 100%;
   max-height: 400px;
-  min-width: 100px;
+  min-width: 320px;
   background: #1b111114;
+  animation: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   /* /* border-radius: 15px; */
 }
 
@@ -30,4 +31,9 @@
 
 .productLists__review {
   font-weight: 200;
+}
+
+.productLists:hover {
+  transform: scale(1.05);
+  box-shadow: 1px 2px 7px rgba(0, 0, 0, 0.5);
 }

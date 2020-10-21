@@ -7,21 +7,21 @@ import PersonIcon from '@material-ui/icons/Person';
 import "./Header.css"
 
 const Header: React.FC = () => {
- return (
-  <div className="header">
-   <h3 className="header__brand">Shopify</h3>
-   <div className="header__ctx">
-     <Button>
-      <ShoppingCartIcon />
-       Cart
-     </Button>
-    <Button>
-      <PersonIcon />
-       Account
-     </Button>
-   </div>
-  </div>
- )
+  return (
+    <div className="header">
+    <h3 className="header__brand">Shopify</h3>
+    <div className="header__ctx">
+      <Button>
+        <ShoppingCartIcon />
+        Cart
+      </Button>
+      <Button>
+        <PersonIcon />
+        Account
+      </Button>
+    </div>
+    </div>
+  )
 }
 
 export default Header
