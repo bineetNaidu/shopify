@@ -7,6 +7,11 @@
   color: rgb(216, 205, 205);
 }
 
+.header a {
+  color: rgb(216, 205, 205);
+  text-decoration: none;
+}
+
 .header__brand {
   font-size: 1.2rem;
   text-transform: uppercase;
