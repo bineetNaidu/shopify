@@ -1,4 +1,5 @@
 import Product from '../model/Product.js';
+import Review from '../model/Review.js';
 
 export const getProducts = async (_, res) => {
   const products = await Product.find({});
@@ -46,6 +47,13 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const product = await Product.findOne({ _id: req.params.pID });
+
+  if (product.reviews) {
+    for (let r of product.reviews) {
+      await Review.findOneAndRemove({ _id: r._id });
+    }
+  }
+
   await product.remove();
   res.redirect(`/api/p`);
 };
