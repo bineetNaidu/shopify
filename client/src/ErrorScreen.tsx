@@ -11,7 +11,7 @@ function Alert(props: AlertProps) {
 }
 
 interface Props {
-  errMsg: string;
+  errMsg: string | null;
   status?: number;
 }
 
