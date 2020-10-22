@@ -14,6 +14,15 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import CategoryIcon from '@material-ui/icons/Category';
+import { Link } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import LinkIcon from '@material-ui/icons/Link';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 interface P {
   qty: number;
@@ -33,6 +42,7 @@ const AdminProducts = () => {
   // States
   const [products, setProducts] = useState<[P] | Array<P>>([]);
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
 
   // Hooks
   useEffect(() => {
@@ -41,10 +51,20 @@ const AdminProducts = () => {
       const products: [P] = data.products;
       setProducts(products);
     })();
-  }, []);
+  }, [products]);
 
   // Functions
   const handleClick = () => setOpen(!open);
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') return;
+    setOpenAlert(false);
+  };
+
+  const handleDelete = async (id: string) => {
+    await Axios.delete(`/api/p/${id}`);
+    setOpenAlert(true);
+  };
 
   return (
     <div className="admin__products">
@@ -64,9 +84,21 @@ const AdminProducts = () => {
                   <LoyaltyIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Single-line item" />
+              <ListItemText primary={p.name} />
               <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete">
+                <IconButton edge="end" aria-label="link">
+                  <Link to={`/s/${p._id}`}>
+                    <LinkIcon />
+                  </Link>
+                </IconButton>
+                <IconButton edge="end" aria-label="edit">
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => handleDelete(p._id)}
+                >
                   <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>
@@ -74,6 +106,11 @@ const AdminProducts = () => {
           ))}
         </List>
       </Collapse>
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Sucessfully delete the product!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
