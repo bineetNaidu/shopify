@@ -40,7 +40,11 @@ export const updateProduct = async (req, res) => {
     { _id: req.params.pID },
     { ...req.body }
   );
-  res.redirect(`/api/p/${product._id}`);
+  res.json({
+    success: true,
+    length: product.length,
+    product,
+  });
 };
 
 export const deleteProduct = async (req, res) => {
@@ -55,5 +59,9 @@ export const deleteProduct = async (req, res) => {
   }
 
   await product.remove();
-  res.redirect(`/api/p`);
+  res.json({
+    success: true,
+    length: product.length,
+    product,
+  });
 };
