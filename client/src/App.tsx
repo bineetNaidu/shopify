@@ -5,6 +5,7 @@ import Home from './Home';
 import Shops from './Shops';
 import Product from './Product';
 import Footer from './Footer';
+import Admin from './admin/Admin';
 
 // statics
 import './App.css';
@@ -17,6 +18,7 @@ const App = () => {
         <Route exact path="/" component={Home} />
         <Route exact path="/s" component={Shops} />
         <Route exact path="/s/:pID" component={Product} />
+        <Route exact path="/admin" component={Admin} />
       </Switch>
       <Footer />
     </div>
