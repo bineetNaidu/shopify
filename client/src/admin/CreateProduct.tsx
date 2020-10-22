@@ -8,11 +8,15 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import Axios from 'axios';
+import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 // Statics
 import './CreateProduct.css';
 
 const CreateProduct = () => {
+  const history = useHistory();
   const [productName, handleProductName, resetName] = useFormValue('');
   const [qty, handleQty, resetQty] = useFormValue(1);
   const [price, handlePrice, resetPrice] = useFormValue(0);
@@ -20,9 +24,52 @@ const CreateProduct = () => {
   const [desc, handleDesc, resetDesc] = useFormValue('');
   const [countInStock, handleCountInStock, resetCountInStock] = useFormValue(5);
   const [varified, setVarified] = useState(false);
+  const [category, handleCtg, resetCtg] = useFormValue('');
+
+  // Functions
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    try {
+      e.preventDefault();
+      if (
+        productName &&
+        qty &&
+        price &&
+        img &&
+        desc &&
+        countInStock &&
+        category
+      ) {
+        const productData = {
+          name: productName,
+          qty,
+          price,
+          description: desc,
+          countInStock,
+          varified,
+          category,
+          images: [img],
+        };
+        const { data } = await Axios.post('/api/p', { ...productData });
+        resetName();
+        resetQty();
+        resetPrice();
+        resetImage();
+        resetDesc();
+        resetCountInStock();
+        resetCtg();
+        history.push(`/s/${data.product._id}`);
+      } else {
+        alert('Please Fill Out the Fields');
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   return (
-    <form className="createProduct">
+    <form className="createProduct" onSubmit={handleSubmit}>
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <TextField
@@ -91,6 +138,21 @@ const CreateProduct = () => {
           />
         </Grid>
         <Grid item xs={3}>
+          <TextField
+            label="Category"
+            value={category}
+            onChange={handleCtg}
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Add Product
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
           <FormControlLabel
             control={
               <Checkbox
