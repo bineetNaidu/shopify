@@ -7,6 +7,7 @@ import ProductReviews from './ProductReviews';
 
 // Statics
 import './Product.css';
+import ErrorScreen from './ErrorScreen';
 
 interface ReviewTypes {
   _id: string;
@@ -38,20 +39,28 @@ const Product: React.FC = () => {
   // States
   const [product, setProduct] = useState<P>();
   const [reviews, setReviews] = useState<ReviewTypes[] | []>([]);
+  const [error, setError] = useState('');
 
   // Hooks
   useEffect(() => {
     (async () => {
-      const { data } = await Axios.get(`/api/p/${pID}`);
-      const productData: P = { ...data.product };
-      setReviews(productData.reviews);
-      setProduct(productData);
+      try {
+        const { data } = await Axios.get(`/api/p/${pID}`);
+        console.log(data);
+        if (!data.product) throw new Error(data.error);
+        const productData: P = { ...data.product };
+        setReviews(productData.reviews);
+        setProduct(productData);
+      } catch (e) {
+        console.log(e);
+        setError(e.message);
+      }
     })();
   }, [pID]);
 
   return (
     <>
-      {product && (
+      {product ? (
         <div className="product">
           <div className="product__details">
             <div className="product__left">
@@ -120,6 +129,8 @@ const Product: React.FC = () => {
             </div>
           </div>
         </div>
+      ) : (
+        <ErrorScreen errMsg={error} />
       )}
     </>
   );
