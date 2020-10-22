@@ -1,5 +1,5 @@
 .admin {
-  min-height: 100vh;
+  height: 94vh;
   padding: 2rem 5rem;
 }
 
@@ -16,10 +16,12 @@
 
 .admin__content--left {
   flex: 1;
+  height: 400px;
+  overflow-y: scroll;
 }
 
 .admin__content--right {
   flex: 1;
-  min-height: 500px;
-  overflow: hidden;
+  height: 400px;
+  overflow-y: scroll;
 }

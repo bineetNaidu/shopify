@@ -9,7 +9,7 @@
     "dev-server": "nodemon server",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "seeds" :"node seeds/index.js"
+    "seeds": "node seeds/index.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "faker": "^5.1.0",
+    "http-errors": "^1.8.0",
     "mongoose": "^5.10.9",
     "morgan": "^1.10.0"
   },
