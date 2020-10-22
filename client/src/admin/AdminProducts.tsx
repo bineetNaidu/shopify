@@ -51,7 +51,7 @@ const AdminProducts = () => {
       const products: [P] = data.products;
       setProducts(products);
     })();
-  }, [products]);
+  }, []);
 
   // Functions
   const handleClick = () => setOpen(!open);

@@ -1,5 +1,5 @@
+import React, { useEffect, useState, memo } from 'react';
 import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -37,12 +37,14 @@ const Product: React.FC = () => {
 
   // States
   const [product, setProduct] = useState<P>();
+  const [reviews, setReviews] = useState<ReviewTypes[] | []>([]);
 
   // Hooks
   useEffect(() => {
     (async () => {
       const { data } = await Axios.get(`/api/p/${pID}`);
       const productData: P = { ...data.product };
+      setReviews(productData.reviews);
       setProduct(productData);
     })();
   }, [pID]);
@@ -81,7 +83,7 @@ const Product: React.FC = () => {
             </div>
           </div>
 
-          <ProductReviews reviews={product.reviews} productId={product._id} />
+          <ProductReviews reviews={reviews} productId={product._id} />
 
           <div className="product__dummy">
             <div className="dummy__left">
@@ -123,4 +125,4 @@ const Product: React.FC = () => {
   );
 };
 
-export default Product;
+export default memo(Product);
