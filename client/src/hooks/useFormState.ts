@@ -9,5 +9,5 @@ export default (intialVal: any) => {
 
   const reset = () => setState('');
 
-  return [state, handleState, reset];
+  return [state, handleState, reset, setState];
 };

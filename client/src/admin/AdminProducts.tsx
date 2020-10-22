@@ -92,7 +92,9 @@ const AdminProducts = () => {
                   </Link>
                 </IconButton>
                 <IconButton edge="end" aria-label="edit">
-                  <EditIcon />
+                  <Link to={`/admin/edit/${p._id}`}>
+                    <EditIcon />
+                  </Link>
                 </IconButton>
                 <IconButton
                   edge="end"
