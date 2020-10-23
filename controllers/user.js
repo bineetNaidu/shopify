@@ -17,3 +17,18 @@ export const signupUser = async (req, res) => {
     }
   }
 };
+
+export const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  let isMatch = await user.comparePassword(password);
+
+  if (isMatch) {
+    const token = createJWTToken(user.id, user.username, user.email);
+    return res
+      .status(200)
+      .json({ token, username: user.username, id: user.id, email: user.email });
+  } else {
+    throw new Error('Invalid Email/Password Provided...', 400);
+  }
+};
