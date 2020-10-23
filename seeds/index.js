@@ -33,7 +33,7 @@ const seedDB = async () => {
       const review = new Review({
         rating,
         comment,
-        user: '5f92a97085199016a1493041',
+        user: { id: '5f92a97085199016a1493041', username: 'bineet' },
       });
       await product.reviews.push(review._id);
       await review.save();
