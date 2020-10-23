@@ -12,10 +12,11 @@ const ReviewSchema = new Schema({
     type: String,
     required: true,
   },
-  // user: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'User',
-  // },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
 });
 
 export default mongoose.model('Review', ReviewSchema);

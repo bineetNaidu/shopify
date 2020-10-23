@@ -8,11 +8,11 @@ export const isLoggedIn = (req, res, next) => {
       if (decode) {
         return next();
       } else {
-        throw new ExpressError('Please Log in Forst', 401);
+        throw new ExpressError('Please Log in First', 401);
       }
     });
   } catch (e) {
-    throw new ExpressError('Please Log in Forst', 401);
+    throw new ExpressError('Please Log in First', 401);
   }
 };
 
@@ -22,6 +22,21 @@ export const isAdmin = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.JWT_TOKEN, (err, decode) => {
       if (decode && decode.isAdmin === true) {
+        return next();
+      } else {
+        throw new ExpressError('Unauthorized', 401);
+      }
+    });
+  } catch (e) {
+    throw new ExpressError('Unauthorized', 401);
+  }
+};
+
+export const isReviewAuthor = (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, process.env.JWT_TOKEN, (err, decode) => {
+      if (decode && decode.id === req.params.rID) {
         return next();
       } else {
         throw new ExpressError('Unauthorized', 401);
