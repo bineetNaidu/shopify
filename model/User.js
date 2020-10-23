@@ -1,9 +1,23 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  username: String,
-  email: String,
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   isAdmin: {
     type: Boolean,
     default: false,
@@ -14,6 +28,12 @@ const UserSchema = new Schema({
       ref: 'Order',
     },
   ],
+});
+
+UserSchema.pre('save', async function (next) {
+  const salt = bcrypt.genSalt();
+  this.password = bcrypt.hash(this.password, salt);
+  next();
 });
 
 export default mongoose.model('User', UserSchema);
