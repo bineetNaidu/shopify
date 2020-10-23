@@ -10,6 +10,7 @@ import CreateProduct from './admin/CreateProduct';
 import EditProduct from './admin/EditProduct';
 import { StateProvider } from './context/State.Context';
 import Login from './auth/Login';
+import Signup from './auth/Signup';
 
 // statics
 import './App.css';
@@ -26,6 +27,7 @@ const App = () => {
         <Route exact path="/admin/create" component={CreateProduct} />
         <Route exact path="/admin/edit/:pID" component={EditProduct} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
       </Switch>
       <Footer />
     </StateProvider>

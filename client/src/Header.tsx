@@ -32,6 +32,9 @@ const Header: React.FC = () => {
             <Button>
               <Link to="/login">Login</Link>
             </Button>
+            <Button>
+              <Link to="/signup">New To Shopify</Link>
+            </Button>
           </>
         )}
       </div>

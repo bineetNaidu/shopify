@@ -16,13 +16,14 @@ import { useHistory } from 'react-router-dom';
 // Statics
 import './Auth.css';
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
   const history = useHistory();
   // Context
   const [, dispatch] = useStateValue();
   const [showPassword, setShowPassword] = useState(false);
   const [password, handlePassword, resetPss] = useFormState('');
   const [username, handleUsername, resetUrsName] = useFormState('');
+  const [email, handleEmail, resetEmail] = useFormState('');
 
   // Functions
   const handleClickShowPassword = () => {
@@ -38,11 +39,16 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     if (username && password) {
       e.preventDefault();
-      const { data } = await Axios.post('/auth/login', { username, password });
+      const { data } = await Axios.post('/auth/signup', {
+        username,
+        password,
+        email,
+      });
       if (!data.error) {
         dispatch({ type: 'SET_USER', user: data });
         resetPss();
         resetUrsName();
+        resetEmail();
         history.push('/');
       } else {
         alert(data.error);
@@ -55,9 +61,17 @@ const Login: React.FC = () => {
   return (
     <div className="login">
       <form onSubmit={handleLogin}>
-        <h3>Login to Shopify</h3>
+        <h3>Signup with Shopify</h3>
         <TextField
-          label="UserName"
+          label="Email"
+          value={email}
+          type="email"
+          onChange={handleEmail}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Username"
           value={username}
           onChange={handleUsername}
           fullWidth
@@ -87,11 +101,11 @@ const Login: React.FC = () => {
           />
         </FormControl>
         <Button type="submit" color="primary" variant="contained" fullWidth>
-          Login!
+          Signup!
         </Button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
