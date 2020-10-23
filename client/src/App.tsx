@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from './Home';
 import Shops from './Shops';
 import Product from './Product';
@@ -33,7 +33,7 @@ const App = () => {
             <Route exact path="/admin/edit/:pID" component={EditProduct} />
           </>
         ) : (
-          <Route component={Home} />
+          <Redirect to="/" />
         )}
       </Switch>
       <Footer />

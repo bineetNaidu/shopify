@@ -11,11 +11,13 @@ import Grid from '@material-ui/core/Grid';
 import Axios from 'axios';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import { useStateValue } from '../context/State.Context';
 
 // Statics
 import './CreateProduct.css';
 
 const CreateProduct = () => {
+  const [{ user }] = useStateValue();
   const history = useHistory();
   const [productName, handleProductName, resetName] = useFormValue('');
   const [qty, handleQty, resetQty] = useFormValue(1);
@@ -51,7 +53,14 @@ const CreateProduct = () => {
           category,
           images: [img],
         };
-        const { data } = await Axios.post('/api/p', { ...productData });
+        const { data } = await Axios.post(
+          '/api/p',
+          { ...productData },
+          { headers: { Authorization: `Bearer ${user.token}` } }
+        );
+        if (data.error) {
+          return alert(data.error);
+        }
         resetName();
         resetQty();
         resetPrice();
