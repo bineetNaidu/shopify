@@ -8,13 +8,15 @@ import Footer from './Footer';
 import Admin from './admin/Admin';
 import CreateProduct from './admin/CreateProduct';
 import EditProduct from './admin/EditProduct';
+import { StateProvider } from './context/State.Context';
+import Login from './auth/Login';
 
 // statics
 import './App.css';
 
 const App = () => {
   return (
-    <div>
+    <StateProvider>
       <Header />
       <Switch>
         <Route exact path="/" component={Home} />
@@ -23,9 +25,10 @@ const App = () => {
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/admin/create" component={CreateProduct} />
         <Route exact path="/admin/edit/:pID" component={EditProduct} />
+        <Route exact path="/login" component={Login} />
       </Switch>
       <Footer />
-    </div>
+    </StateProvider>
   );
 };
 
