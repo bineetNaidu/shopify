@@ -30,7 +30,11 @@ const seedDB = async () => {
     for (let k = 0; k < 5; k++) {
       const rating = faker.random.number(5);
       const comment = faker.lorem.sentence();
-      const review = new Review({ rating, comment });
+      const review = new Review({
+        rating,
+        comment,
+        user: '5f92a97085199016a1493041',
+      });
       await product.reviews.push(review._id);
       await review.save();
     }
