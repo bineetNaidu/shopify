@@ -11,13 +11,15 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 // Statics
 import './Login.css';
 
 const Login: React.FC = () => {
+  const history = useHistory();
   // Context
-  const [{ user }, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
   const [showPassword, setShowPassword] = useState(false);
   const [password, handlePassword, resetPss] = useFormState('');
   const [username, handleUsername, resetUrsName] = useFormState('');
@@ -33,9 +35,26 @@ const Login: React.FC = () => {
     event.preventDefault();
   };
 
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (username && password) {
+      e.preventDefault();
+      const { data } = await Axios.post('/auth/login', { username, password });
+      if (!data.error) {
+        dispatch({ type: 'SET_USER', user: data });
+        resetPss();
+        resetUrsName();
+        history.push('/');
+      } else {
+        alert(data.error);
+      }
+    } else {
+      alert('Please Fill out the fields');
+    }
+  };
+
   return (
     <div className="login">
-      <form>
+      <form onSubmit={handleLogin}>
         <h3>Login to Shopify</h3>
         <TextField
           label="UserName"
@@ -67,7 +86,7 @@ const Login: React.FC = () => {
             }
           />
         </FormControl>
-        <Button color="primary" variant="contained" fullWidth>
+        <Button type="submit" color="primary" variant="contained" fullWidth>
           Login!
         </Button>
       </form>
