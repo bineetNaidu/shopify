@@ -8,7 +8,7 @@ import Footer from './Footer';
 import Admin from './admin/Admin';
 import CreateProduct from './admin/CreateProduct';
 import EditProduct from './admin/EditProduct';
-import { StateProvider } from './context/State.Context';
+import { useStateValue } from './context/State.Context';
 import Login from './auth/Login';
 import Signup from './auth/Signup';
 
@@ -16,21 +16,28 @@ import Signup from './auth/Signup';
 import './App.css';
 
 const App = () => {
+  const [{ user }] = useStateValue();
   return (
-    <StateProvider>
+    <>
       <Header />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/s" component={Shops} />
         <Route exact path="/s/:pID" component={Product} />
-        <Route exact path="/admin" component={Admin} />
-        <Route exact path="/admin/create" component={CreateProduct} />
-        <Route exact path="/admin/edit/:pID" component={EditProduct} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
+        {user?.isAdmin ? (
+          <>
+            <Route exact path="/admin" component={Admin} />
+            <Route exact path="/admin/create" component={CreateProduct} />
+            <Route exact path="/admin/edit/:pID" component={EditProduct} />
+          </>
+        ) : (
+          <Route component={Home} />
+        )}
       </Switch>
       <Footer />
-    </StateProvider>
+    </>
   );
 };
 

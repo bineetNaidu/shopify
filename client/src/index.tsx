@@ -2,14 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter  } from "react-router-dom"
+import { BrowserRouter } from 'react-router-dom';
+import { StateProvider } from './context/State.Context';
 //  Statics
 import './index.css';
 
-  ReactDOM.render(
+ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <StateProvider>
+        <App />
+      </StateProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

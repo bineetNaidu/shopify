@@ -13,4 +13,11 @@
 
 .productReview__right {
   flex: 1;
+  height: 450px;
+  overflow-y: scroll;
+}
+
+.productReview__preview {
+  color: rgb(92, 80, 80);
+  text-align: center;
 }
