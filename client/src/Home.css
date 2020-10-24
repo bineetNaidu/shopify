@@ -1,6 +1,8 @@
 .home {
   margin: 10px 15px;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .home__productLists {
@@ -24,4 +26,33 @@
   font-weight: 400;
   letter-spacing: 1.8px;
   font-size: 1.8rem;
+}
+
+.home__carousel {
+  width: 800px;
+  height: 300px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.home__carousel .home__carousel--img {
+  object-fit: none;
+}
+
+.home__carousel--next {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%);
+  background-color: transparent;
+  border: none;
+}
+
+.home__carousel--back {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: none;
 }

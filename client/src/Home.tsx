@@ -3,6 +3,7 @@ import Axios from 'axios';
 import ProductCard from './ProductCard';
 import { Link } from 'react-router-dom';
 import ErrorScreen from './ErrorScreen';
+import CarouselBar from './Carousel';
 
 // Statics
 import './Home.css';
@@ -50,6 +51,9 @@ const Home = () => {
     <>
       {!error ? (
         <div className="home">
+          <div className="home__carousel">
+            <CarouselBar />
+          </div>
           <div className="home__productLabel">
             <h2>Best Deals</h2>
             <Link to="/s">View all</Link>
