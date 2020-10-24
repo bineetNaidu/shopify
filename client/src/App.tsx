@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './Header';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from './Home';
@@ -11,12 +11,21 @@ import EditProduct from './admin/EditProduct';
 import { useStateValue } from './context/State.Context';
 import Login from './auth/Login';
 import Signup from './auth/Signup';
+import { setLocalUser } from './utils/SetUser';
 
 // statics
 import './App.css';
 
 const App = () => {
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+
+  useEffect(() => {
+    if (localStorage.shopifyToken) {
+      const authUser = setLocalUser(localStorage.shopifyToken);
+      dispatch({ type: 'SET_USER', user: authUser });
+    }
+  }, []);
+
   return (
     <>
       <Header />

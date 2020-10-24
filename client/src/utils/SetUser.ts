@@ -14,6 +14,28 @@ interface User {
   email: string;
 }
 
+const LocalUser = async (key: string, token: string) => {
+  let val;
+  try {
+    val = JSON.parse(window.localStorage.getItem(key) || String(token));
+  } catch (e) {
+    val = window.localStorage.setItem(key, JSON.stringify(token));
+  }
+  return val;
+};
+
+export const setLocalUser = (token: string) => {
+  let authUser: User;
+  const user: User = JwtDecode(token);
+  authUser = {
+    id: user.id,
+    username: user.username,
+    isAdmin: user.isAdmin,
+    email: user.email,
+  };
+  return authUser;
+};
+
 export const SetUser = async (userDetails: Data, method: string) => {
   let authUser: User = {
     email: '',
@@ -29,7 +51,7 @@ export const SetUser = async (userDetails: Data, method: string) => {
       username: userDetails.username,
       password: userDetails.password,
     });
-
+    await LocalUser('shopifyToken', data.token);
     if (!data.error) {
       const user: User = JwtDecode(data.token);
       authUser = {
@@ -49,7 +71,7 @@ export const SetUser = async (userDetails: Data, method: string) => {
       password: userDetails.password,
       email: userDetails.email,
     });
-
+    await LocalUser('shopifyToken', data.token);
     if (!data.error) {
       const user: User = JwtDecode(data.token);
       authUser = {
