@@ -7,7 +7,7 @@ export const signupUser = async (req, res) => {
     const { id, username, email, isAdmin } = await new User(req.body).save();
     const token = createJWTToken(id, username, email, isAdmin);
     if (!token) throw new ExpressError('Server Error', 500);
-    res.status(200).json({ token, username, id, email, isAdmin });
+    res.status(200).json({ token });
   } catch (err) {
     if (err.code === 11000) {
       // res with username/password is already taken
@@ -30,15 +30,7 @@ export const loginUser = async (req, res) => {
       user.email,
       user.isAdmin
     );
-    return res
-      .status(200)
-      .json({
-        token,
-        username: user.username,
-        id: user.id,
-        email: user.email,
-        isAdmin: user.isAdmin,
-      });
+    return res.status(200).json({ token });
   } else {
     throw new Error('Invalid Email/Password Provided...', 400);
   }

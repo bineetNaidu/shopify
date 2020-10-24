@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
 import { useStateValue } from '../context/State.Context';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -12,6 +11,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import { SetUser } from '../utils/SetUser';
 
 // Statics
 import './Auth.css';
@@ -38,14 +38,14 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     if (username && password) {
       e.preventDefault();
-      const { data } = await Axios.post('/auth/login', { username, password });
-      if (!data.error) {
-        dispatch({ type: 'SET_USER', user: data });
+      const [auth, , error] = await SetUser({ username, password }, 'login');
+      if (auth) {
+        dispatch({ type: 'SET_USER', user: auth });
         resetPss();
         resetUrsName();
         history.push('/');
       } else {
-        alert(data.error);
+        alert(error);
       }
     } else {
       alert('Please Fill out the fields');
