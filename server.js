@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import productsRoutes from './routes/product.js';
 import reviewsRoutes from './routes/review.js';
 import usersRoutes from './routes/user.js';
+import ordersRoutes from './routes/order.js';
 
 dotenv.config();
 const app = express();
@@ -18,9 +19,13 @@ app.use(logger('dev'));
 app.use('/api/p', productsRoutes);
 app.use('/api/p/:pID', reviewsRoutes);
 app.use('/auth', usersRoutes);
+app.use('/api/orders', ordersRoutes);
 
 //! catch 404 and forward to error handler
-app.all('*', (req, res, next) => next(new CreateError(404)));
+app.all('*', (req, res, next) => {
+  res.status(404 || req.statusCode);
+  next(new CreateError(404));
+});
 
 //! error handler
 app.use((err, req, res, next) => {
