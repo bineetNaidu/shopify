@@ -6,18 +6,25 @@ import { Link } from 'react-router-dom';
 import { useStateValue } from './context/State.Context';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { LocalUser } from './utils/SetUser';
 
 // Statics
 import './Header.css';
 
 const Header: React.FC = () => {
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    await LocalUser('shopifyToken', '');
+    dispatch({ type: 'SET_USER', user: null });
+    handleClose();
   };
 
   return (
@@ -45,7 +52,7 @@ const Header: React.FC = () => {
             >
               <MenuItem onClick={handleClose}>{user.username}</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
               {user.isAdmin && (
                 <MenuItem>
                   <Link to="/admin">Admin</Link>

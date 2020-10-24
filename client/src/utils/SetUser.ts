@@ -14,13 +14,8 @@ interface User {
   email: string;
 }
 
-const LocalUser = async (key: string, token: string) => {
-  let val;
-  try {
-    val = JSON.parse(window.localStorage.getItem(key) || String(token));
-  } catch (e) {
-    val = window.localStorage.setItem(key, JSON.stringify(token));
-  }
+export const LocalUser = async (key: string, token: string) => {
+  let val = window.localStorage.setItem(key, JSON.stringify(token));
   return val;
 };
 
