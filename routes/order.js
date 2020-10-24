@@ -1,17 +1,25 @@
 import { Router } from 'express';
 import {
   createUserOrder,
+  deleteUserOrder,
+  editUserOrder,
   getOrders,
   getUsersOrders,
 } from '../controllers/order.js';
 import catchAsync from '../utils/catchAsync.js';
+import { isAdmin, isLoggedIn } from '../middlewares/auth.js';
 
 const router = Router({ mergeParams: true });
 
-router.get('/', catchAsync(getOrders));
+router.get('/', isAdmin, catchAsync(getOrders));
 router
   .route('/:uid')
-  .get(catchAsync(getUsersOrders))
-  .post(catchAsync(createUserOrder));
+  .get(isLoggedIn, catchAsync(getUsersOrders))
+  .post(isLoggedIn, catchAsync(createUserOrder));
+
+router
+  .route('/:uid/:oID')
+  .put(isLoggedIn, isAdmin, catchAsync(editUserOrder))
+  .delete(isLoggedIn, catchAsync(deleteUserOrder));
 
 export default router;
