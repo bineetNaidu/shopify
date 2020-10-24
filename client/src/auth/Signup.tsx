@@ -37,8 +37,8 @@ const Signup: React.FC = () => {
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (username && password) {
-      e.preventDefault();
       const [auth, , error] = await SetUser(
         { username, password, email },
         'signup'

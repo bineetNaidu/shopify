@@ -36,8 +36,8 @@ const Login: React.FC = () => {
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (username && password) {
-      e.preventDefault();
       const [auth, , error] = await SetUser({ username, password }, 'login');
       if (auth) {
         dispatch({ type: 'SET_USER', user: auth });
