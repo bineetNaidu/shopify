@@ -20,7 +20,7 @@ const App = () => {
   const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
-    if (localStorage.shopifyToken) {
+    if (localStorage.shopifyToken !== null) {
       const authUser = setLocalUser(localStorage.shopifyToken);
       dispatch({ type: 'SET_USER', user: authUser });
     }

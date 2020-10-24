@@ -63,6 +63,7 @@ const AdminProducts = () => {
 
   const handleDelete = async (id: string) => {
     await Axios.delete(`/api/p/${id}`);
+    setProducts(products.filter((p) => p._id !== id));
     setOpenAlert(true);
   };
 

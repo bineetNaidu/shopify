@@ -10,7 +10,7 @@ import ErrorScreen from './ErrorScreen';
 import './Product.css';
 
 interface ReviewTypes {
-  _id: string;
+  _id?: string;
   comment: string;
   rating: number;
   user: {

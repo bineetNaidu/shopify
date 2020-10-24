@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 import './ProductReviews.css';
 
 interface ReviewTypes {
-  _id: string;
+  _id?: string;
   comment: string;
   rating: number;
   user: {
@@ -37,6 +37,7 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
   const [rating, setRating] = useState<number | null>(1);
   const [comment, setComment] = useState<string>('');
   const [{ user }] = useStateValue();
+  const [reviewsState, setReviewState] = useState([...reviews]);
 
   // Functions
   const handleComment = (
@@ -46,18 +47,18 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment && rating) {
-      const { data } = await Axios.post(
-        `/api/p/${productId}`,
-        {
-          comment,
-          rating,
-          user: { id: user.id, username: user.username },
-        },
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      );
+      const reviewData = {
+        comment,
+        rating,
+        user: { id: user.id, username: user.username },
+      };
+      const { data } = await Axios.post(`/api/p/${productId}`, reviewData, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       if (data.error) {
         return alert(data.error);
       }
+      setReviewState([reviewData, ...reviewsState]);
       setRating(1);
       setComment('');
     } else {
@@ -108,7 +109,7 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
       </div>
       <div className="productReview__right">
         <List>
-          {reviews.map((r) => (
+          {reviewsState.map((r) => (
             <ListItem alignItems="flex-start" key={r._id}>
               <ListItemAvatar>
                 <Avatar
