@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import ProductReviews from './ProductReviews';
 import ErrorScreen from './ErrorScreen';
+import { useStateValue } from './context/State.Context';
 
 // Statics
 import './Product.css';
@@ -39,7 +40,7 @@ interface P {
 }
 const Product: React.FC = () => {
   const { pID } = useParams<RouterProps>();
-
+  const [{ cart }, dispatch] = useStateValue();
   // States
   const [product, setProduct] = useState<P>();
   const [reviews, setReviews] = useState<ReviewTypes[] | []>([]);
@@ -60,6 +61,17 @@ const Product: React.FC = () => {
     })();
   }, [pID]);
 
+  // Functions
+  const addToCart = () => {
+    const data = {
+      id: product?._id,
+      name: product?.name,
+      inStock: product?.countInStock,
+      price: product?.price,
+    };
+    dispatch({ type: 'ADD_TO_CART', item: data });
+  };
+
   return (
     <>
       {product ? (
@@ -77,7 +89,12 @@ const Product: React.FC = () => {
               </p>
               <p className="product__desc">{product.description}</p>
               <div className="product__addBasket">
-                <Button variant="contained" color="primary" fullWidth>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={addToCart}
+                >
                   ADD TO BAG
                 </Button>
                 <p className="product__deleveryPin">Delivery Details</p>

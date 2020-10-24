@@ -6,13 +6,16 @@ import { Link } from 'react-router-dom';
 import { useStateValue } from './context/State.Context';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge';
 import { LocalUser } from './utils/SetUser';
+import { Theme, withStyles, createStyles } from '@material-ui/core/styles';
 
 // Statics
 import './Header.css';
 
 const Header: React.FC = () => {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, cart }, dispatch] = useStateValue();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,9 +39,15 @@ const Header: React.FC = () => {
         {user !== null ? (
           <>
             <Button>
-              <ShoppingCartIcon />
-              Cart
+              {cart.length ? (
+                <Badge badgeContent={cart.length} color="primary">
+                  <ShoppingCartIcon />
+                </Badge>
+              ) : (
+                <ShoppingCartIcon />
+              )}
             </Button>
+
             <Button onClick={handleClick}>
               <PersonIcon />
               Account
