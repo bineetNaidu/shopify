@@ -7,7 +7,7 @@ import {
   getUsersOrders,
 } from '../controllers/order.js';
 import catchAsync from '../utils/catchAsync.js';
-import { isAdmin, isLoggedIn } from '../middlewares/auth.js';
+import { isAdmin, isLoggedIn, isOrderOwner } from '../middlewares/auth.js';
 
 const router = Router({ mergeParams: true });
 
@@ -20,6 +20,6 @@ router
 router
   .route('/:uid/:oID')
   .put(isLoggedIn, isAdmin, catchAsync(editUserOrder))
-  .delete(isLoggedIn, catchAsync(deleteUserOrder));
+  .delete(isLoggedIn, isOrderOwner, catchAsync(deleteUserOrder));
 
 export default router;

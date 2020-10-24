@@ -46,3 +46,18 @@ export const isReviewAuthor = (req, res, next) => {
     throw new ExpressError('Unauthorized', 401);
   }
 };
+
+export const isOrderOwner = (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, process.env.JWT_TOKEN, (err, decode) => {
+      if (decode && decode.id === req.params.uid) {
+        return next();
+      } else {
+        throw new ExpressError('Unauthorized', 401);
+      }
+    });
+  } catch (e) {
+    throw new ExpressError('Unauthorized', 401);
+  }
+};
