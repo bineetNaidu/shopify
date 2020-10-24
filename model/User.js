@@ -22,12 +22,6 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  orders: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Order',
-    },
-  ],
 });
 
 UserSchema.pre('save', async function (next) {
