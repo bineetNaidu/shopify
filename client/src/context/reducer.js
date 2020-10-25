@@ -12,9 +12,39 @@ export const reducer = (state, action) => {
       };
 
     case 'ADD_TO_CART':
+      const item = action.item;
+      const inCart = state.cart.filter((c) => c.id === item.id);
+      console.log(inCart);
+      let newCart;
+      if (inCart) {
+        newCart = {
+          ...state,
+          cart: [...state.cart, { ...item, qty: item.qty++ }],
+        };
+      } else {
+        newCart = {
+          ...state,
+          cart: [...state.cart, item],
+        };
+      }
+      return newCart;
+
+    case 'REMOVE_FROM_CART':
+      const index = state.cart.findIndex(
+        (cartItem) => cartItem.id === action.id
+      );
+
+      let newBasket = [...state.cart];
+      if (index >= 0) {
+        newBasket.splice(index, 1);
+      } else {
+        console.warn(
+          `Cant remove product (id: ${action.id}) as its not in basket!`
+        );
+      }
       return {
         ...state,
-        cart: [...state.cart, action.item],
+        cart: newBasket,
       };
 
     default:

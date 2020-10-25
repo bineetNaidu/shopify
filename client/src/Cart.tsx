@@ -10,7 +10,7 @@ interface CartInterface {
   price: number;
   inStock: number;
   name: string;
-  _id: string;
+  id: string;
   qty: number;
 }
 
@@ -21,13 +21,19 @@ const Cart = () => {
     (amount: any, item: { price: any }) => item.price + amount,
     0
   );
+  const removeFromBasket = (id: string) => {
+    dispatch({
+      type: 'REMOVE_FROM_CART',
+      id,
+    });
+  };
 
   return (
     <div className="cart">
       <div className="cart__left">
         {cart.map((c: CartInterface) => (
-          <div className="cart__item">
-            <button>X</button>
+          <div className="cart__item" key={c.id}>
+            <button onClick={() => removeFromBasket(c.id)}>X</button>
             <img src={c.image} alt={c.name} />
             <div className="cart__itemDetails">
               <h5>{c.name}</h5>
