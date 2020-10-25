@@ -15,10 +15,6 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
-  qty: {
-    type: Number,
-    default: 5,
-  },
   images: [String],
   varified: {
     type: Boolean,

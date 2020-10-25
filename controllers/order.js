@@ -3,7 +3,7 @@ import User from '../model/User.js';
 import { ExpressError } from '../utils/ExpressError.js';
 
 export const getOrders = async (req, res) => {
-  const orders = await Order.find({});
+  const orders = await Order.find({}).populate('product');
   if (!orders) {
     throw new ExpressError('Server Error!', 500);
   }
@@ -15,7 +15,9 @@ export const getOrders = async (req, res) => {
 };
 
 export const getUsersOrders = async (req, res) => {
-  const orders = await Order.find({}).where({ user: req.params.uid });
+  const orders = await Order.find({})
+    .where({ user: req.params.uid })
+    .populate('product');
 
   if (!orders) {
     throw new ExpressError('No Orders for given users', 500);
