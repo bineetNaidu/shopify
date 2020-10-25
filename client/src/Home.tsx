@@ -12,6 +12,10 @@ interface ReviewTypes {
   _id: string;
   comment: string;
   rating: number;
+  user: {
+    id: string;
+    username: string;
+  };
 }
 
 interface P {

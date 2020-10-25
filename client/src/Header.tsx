@@ -39,13 +39,15 @@ const Header: React.FC = () => {
         {user !== null ? (
           <>
             <Button>
-              {cart.length ? (
-                <Badge badgeContent={cart.length} color="primary">
+              <Link to="/cart">
+                {cart.length ? (
+                  <Badge badgeContent={cart.length} color="primary">
+                    <ShoppingCartIcon />
+                  </Badge>
+                ) : (
                   <ShoppingCartIcon />
-                </Badge>
-              ) : (
-                <ShoppingCartIcon />
-              )}
+                )}
+              </Link>
             </Button>
 
             <Button onClick={handleClick}>
