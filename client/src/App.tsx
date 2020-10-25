@@ -22,7 +22,6 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.shopifyToken;
     const authUser = setLocalUser(token);
-    console.log(authUser);
     dispatch({
       type: 'SET_USER',
       user: authUser ? authUser : null,

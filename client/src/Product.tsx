@@ -25,7 +25,6 @@ interface RouterProps {
 }
 
 interface P {
-  qty: number;
   varified: boolean;
   images: [string];
   price: number;
@@ -63,12 +62,7 @@ const Product: React.FC = () => {
 
   // Functions
   const addToCart = () => {
-    const data = {
-      id: product?._id,
-      name: product?.name,
-      inStock: product?.countInStock,
-      price: product?.price,
-    };
+    const data = { id: product?._id, qty: 1 };
     dispatch({ type: 'ADD_TO_CART', item: data });
   };
 

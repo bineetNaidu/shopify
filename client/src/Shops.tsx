@@ -21,7 +21,6 @@ interface ReviewTypes {
 }
 
 interface P {
-  qty: number;
   varified: boolean;
   images: string[];
   price: number;

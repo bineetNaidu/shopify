@@ -20,7 +20,6 @@ const CreateProduct = () => {
   const [{ user }] = useStateValue();
   const history = useHistory();
   const [productName, handleProductName, resetName] = useFormValue('');
-  const [qty, handleQty, resetQty] = useFormValue(1);
   const [price, handlePrice, resetPrice] = useFormValue(0);
   const [img, handleImg, resetImage] = useFormValue('');
   const [desc, handleDesc, resetDesc] = useFormValue('');
@@ -34,18 +33,9 @@ const CreateProduct = () => {
   ): Promise<void> => {
     try {
       e.preventDefault();
-      if (
-        productName &&
-        qty &&
-        price &&
-        img &&
-        desc &&
-        countInStock &&
-        category
-      ) {
+      if (productName && price && img && desc && countInStock && category) {
         const productData = {
           name: productName,
-          qty,
           price,
           description: desc,
           countInStock,
@@ -62,7 +52,6 @@ const CreateProduct = () => {
           return alert(data.error);
         }
         resetName();
-        resetQty();
         resetPrice();
         resetImage();
         resetDesc();
@@ -114,17 +103,6 @@ const CreateProduct = () => {
             value={desc}
             onChange={handleDesc}
             variant="outlined"
-          />
-        </Grid>
-
-        <Grid item xs={3}>
-          <TextField
-            label="Quantity"
-            type="number"
-            value={qty}
-            variant="outlined"
-            fullWidth
-            onChange={handleQty}
           />
         </Grid>
         <Grid item xs={3}>

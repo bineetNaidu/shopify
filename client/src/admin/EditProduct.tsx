@@ -25,7 +25,6 @@ const CreateProduct = () => {
   const history = useHistory();
   const { pID } = useParams<RouterProps>();
   const [productName, handleProductName, resetName, setName] = useFormValue('');
-  const [qty, handleQty, resetQty, setQty] = useFormValue(1);
   const [price, handlePrice, resetPrice, setPrice] = useFormValue(0);
   const [img, handleImg, resetImage, setImage] = useFormValue('');
   const [desc, handleDesc, resetDesc, setDesc] = useFormValue('');
@@ -46,7 +45,6 @@ const CreateProduct = () => {
         if (!data.product) throw new Error(data.error);
         const product = data.product;
         setName(product.name);
-        setQty(product.qty);
         setPrice(product.price);
         setDesc(product.description);
         setShock(product.countInStock);
@@ -65,18 +63,9 @@ const CreateProduct = () => {
   ): Promise<void> => {
     try {
       e.preventDefault();
-      if (
-        productName &&
-        qty &&
-        price &&
-        img &&
-        desc &&
-        countInStock &&
-        category
-      ) {
+      if (productName && price && img && desc && countInStock && category) {
         const productData = {
           name: productName,
-          qty,
           price,
           description: desc,
           countInStock,
@@ -93,7 +82,6 @@ const CreateProduct = () => {
           return alert(data.error);
         }
         resetName();
-        resetQty();
         resetPrice();
         resetImage();
         resetDesc();
@@ -148,16 +136,6 @@ const CreateProduct = () => {
           />
         </Grid>
 
-        <Grid item xs={3}>
-          <TextField
-            label="Quantity"
-            type="number"
-            value={qty}
-            variant="outlined"
-            fullWidth
-            onChange={handleQty}
-          />
-        </Grid>
         <Grid item xs={3}>
           <TextField
             label="Product Image"
