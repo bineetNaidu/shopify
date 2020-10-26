@@ -60,7 +60,9 @@ const Header: React.FC = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>{user.username}</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem>
+                <Link to="/orders">My Orders</Link>
+              </MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
               {user.isAdmin && (
                 <MenuItem>

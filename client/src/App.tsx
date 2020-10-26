@@ -13,6 +13,7 @@ import Login from './auth/Login';
 import Signup from './auth/Signup';
 import { setLocalUser } from './utils/SetUser';
 import Cart from './Cart';
+import Order from './Order';
 
 // statics
 import './App.css';
@@ -36,6 +37,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/cart" component={Cart} />
+        <Route exact path="/orders" component={Order} />
         <Route exact path="/s" component={Shops} />
         <Route exact path="/s/:pID" component={Product} />
         <Route exact path="/login" component={Login} />
