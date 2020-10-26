@@ -22,11 +22,12 @@ const App = () => {
 
   useEffect(() => {
     let token = localStorage.shopifyToken;
-    const authUser = setLocalUser(token);
+    let authUser = setLocalUser(token);
     dispatch({
       type: 'SET_USER',
-      user: authUser ? { ...authUser, token } : null,
+      user: authUser ? { ...authUser, token: token.replaceAll('"', '') } : null,
     });
+    // eslint-disable-next-line
   }, []);
 
   return (

@@ -6,10 +6,8 @@ import { Link } from 'react-router-dom';
 import { useStateValue } from './context/State.Context';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import { LocalUser } from './utils/SetUser';
-import { Theme, withStyles, createStyles } from '@material-ui/core/styles';
 
 // Statics
 import './Header.css';

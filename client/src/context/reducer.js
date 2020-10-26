@@ -14,7 +14,6 @@ export const reducer = (state, action) => {
     case 'ADD_TO_CART':
       const item = action.item;
       const inCart = state.cart.filter((c) => c.id === item.id);
-      console.log(inCart);
       let newCart;
       if (inCart) {
         newCart = {

@@ -51,6 +51,8 @@ const Cart = () => {
         );
         alert(res);
       }
+      resetAddress();
+      resetPostalCode();
     }
   };
 

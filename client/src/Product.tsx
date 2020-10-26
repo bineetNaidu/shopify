@@ -39,7 +39,7 @@ interface P {
 }
 const Product: React.FC = () => {
   const { pID } = useParams<RouterProps>();
-  const [{ cart }, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
   // States
   const [product, setProduct] = useState<P>();
   const [reviews, setReviews] = useState<ReviewTypes[] | []>([]);
