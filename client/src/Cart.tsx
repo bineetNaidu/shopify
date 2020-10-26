@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useStateValue } from './context/State.Context';
 import TextField from '@material-ui/core/TextField';
 import useFormState from './hooks/useFormState';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import checkout from './utils/checkout';
 
 // Statics
 import './Cart.css';
@@ -19,7 +20,7 @@ interface CartInterface {
 }
 
 const Cart = () => {
-  const [{ cart }, dispatch] = useStateValue();
+  const [{ cart, user }, dispatch] = useStateValue();
   const [address, handleAdrress, resetAddress] = useFormState('');
   const [postalCode, handlePostal, resetPostalCode] = useFormState(0);
   const [checked, setChecked] = useState(false);
@@ -34,6 +35,23 @@ const Cart = () => {
       type: 'REMOVE_FROM_CART',
       id,
     });
+  };
+
+  const handleCheckout = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (user && address && postalCode) {
+      for (let orderItem of cart) {
+        const res = await checkout(
+          orderItem.id,
+          user,
+          address,
+          postalCode,
+          orderItem.price,
+          checked
+        );
+        alert(res);
+      }
+    }
   };
 
   return (
@@ -57,7 +75,7 @@ const Cart = () => {
         ))}
       </div>
       <div className="cart__right">
-        <form>
+        <form onSubmit={handleCheckout}>
           <h1>Proceed Checkout</h1>
           <TextField
             value={address}
@@ -88,7 +106,7 @@ const Cart = () => {
             }
             label="Shipping Cost ($5)"
           />
-          <Button variant="contained" color="primary">
+          <Button type="submit" variant="contained" color="primary">
             Checkout
           </Button>
         </form>
@@ -97,4 +115,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default memo(Cart);

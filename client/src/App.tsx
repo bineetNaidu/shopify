@@ -21,11 +21,11 @@ const App = () => {
   const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
-    const token = localStorage.shopifyToken;
+    let token = localStorage.shopifyToken;
     const authUser = setLocalUser(token);
     dispatch({
       type: 'SET_USER',
-      user: authUser ? authUser : null,
+      user: authUser ? { ...authUser, token } : null,
     });
   }, []);
 
