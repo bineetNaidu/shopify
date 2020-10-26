@@ -10,6 +10,15 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import { useStateValue } from '../context/State.Context';
 import Axios from 'axios';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 interface P {
   varified: boolean;
@@ -32,12 +41,15 @@ interface Order {
   postalCode: number;
   price: number;
   shippingPrice: boolean;
+  _id: string;
+  isDelivered: boolean;
 }
 
 export default function NestedList() {
   const [open, setOpen] = React.useState(false);
   const [orders, setOrders] = useState<Array<Order>>([]);
   const [{ user }] = useStateValue();
+  const [openAlert, setOpenAlert] = useState(false);
   const handleClick = () => {
     setOpen(!open);
   };
@@ -50,6 +62,20 @@ export default function NestedList() {
       setOrders(data.orders);
     })();
   }, []);
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') return;
+    setOpenAlert(false);
+  };
+
+  const handleDelivery = async (userId: string, productId: string) => {
+    const { data } = await Axios.put(
+      `/api/orders/${userId}/${productId}`,
+      { isDelivered: true },
+      { headers: { Authorization: `Bearer ${user.token}` } }
+    );
+    setOpenAlert(true);
+  };
 
   return (
     <List component="nav" aria-labelledby="nested-list-subheader">
@@ -68,10 +94,26 @@ export default function NestedList() {
                 <StarBorder />
               </ListItemIcon>
               <ListItemText primary={o.product.name} />
+              <ListItemSecondaryAction>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={o.isDelivered}
+                      onChange={() => handleDelivery(o.user, o._id)}
+                    />
+                  }
+                  label="isDelivered"
+                />
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
       </Collapse>
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Update the Order!
+        </Alert>
+      </Snackbar>
     </List>
   );
 }
