@@ -68,12 +68,18 @@ export default function NestedList() {
     setOpenAlert(false);
   };
 
-  const handleDelivery = async (userId: string, productId: string) => {
-    const { data } = await Axios.put(
-      `/api/orders/${userId}/${productId}`,
+  const handleDelivery = async (userId: string, orderId: string) => {
+    await Axios.put(
+      `/api/orders/${userId}/${orderId}`,
       { isDelivered: true },
       { headers: { Authorization: `Bearer ${user.token}` } }
     );
+    // const updatedOrder: Order | undefined = orders.find(
+    //   (o) => o._id === orderId
+    // );
+    // if (updatedOrder) {
+    //   setOrders([...orders, { ...updatedOrder, isDelivered: true }]);
+    // }
     setOpenAlert(true);
   };
 

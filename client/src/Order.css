@@ -59,3 +59,14 @@
   border-radius: 50%;
   width: 20px;
 }
+
+.order__item > button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 15px;
+  background-color: red;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

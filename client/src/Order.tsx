@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from './context/State.Context';
+import DeleteIcon from '@material-ui/icons/Delete';
 // Statics
 import './Order.css';
 interface P {
@@ -44,11 +45,21 @@ const Order = () => {
     })();
   }, []);
 
+  const handleDelete = async (orderId: string) => {
+    await Axios.delete(`/api/orders/${user.id}/${orderId}`, {
+      headers: { Authorization: `Bearer ${user?.token}` },
+    });
+    setOrders(orders.filter((o) => o._id !== orderId));
+  };
+
   return (
     <div className="order">
       <h1>{user?.username}'s Orders</h1>
       {orders.map((o) => (
         <div className="order__item" key={o._id}>
+          <button onClick={() => handleDelete(o._id)}>
+            <DeleteIcon />
+          </button>
           <img src={o.product.images[0]} alt={o.product.name} />
           <div className="order__details">
             <h2>{o.product.name}</h2>
