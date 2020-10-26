@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStateValue } from './context/State.Context';
-import ProductCard from './ProductCard';
+import TextField from '@material-ui/core/TextField';
+import useFormState from './hooks/useFormState';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 
 // Statics
 import './Cart.css';
@@ -16,11 +20,15 @@ interface CartInterface {
 
 const Cart = () => {
   const [{ cart }, dispatch] = useStateValue();
+  const [address, handleAdrress, resetAddress] = useFormState('');
+  const [postalCode, handlePostal, resetPostalCode] = useFormState(0);
+  const [checked, setChecked] = useState(false);
 
   const totalPrice = cart.reduce(
     (amount: any, item: { price: any }) => item.price + amount,
-    0
+    checked ? 5 : 0
   );
+
   const removeFromBasket = (id: string) => {
     dispatch({
       type: 'REMOVE_FROM_CART',
@@ -49,11 +57,41 @@ const Cart = () => {
         ))}
       </div>
       <div className="cart__right">
-        <h1>Proceed Checkout</h1>
-        <h3>
-          Total Price:
-          <strong> ${totalPrice}</strong>
-        </h3>
+        <form>
+          <h1>Proceed Checkout</h1>
+          <TextField
+            value={address}
+            onChange={handleAdrress}
+            margin="normal"
+            label="Address"
+            variant="outlined"
+          />
+          <TextField
+            value={postalCode}
+            type="number"
+            onChange={handlePostal}
+            label="Postal Code"
+            margin="normal"
+            variant="outlined"
+          />
+          <h3>
+            Total Price:
+            <strong> ${totalPrice}</strong>
+          </h3>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checked}
+                onChange={() => setChecked(!checked)}
+                name="checkedA"
+              />
+            }
+            label="Shipping Cost ($5)"
+          />
+          <Button variant="contained" color="primary">
+            Checkout
+          </Button>
+        </form>
       </div>
     </div>
   );
