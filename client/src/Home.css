@@ -56,3 +56,16 @@
   background-color: transparent;
   border: none;
 }
+
+@media (max-width: 800px) {
+  .home__carousel {
+    width: 95%;
+  }
+}
+
+@media (max-width: 550px) {
+  .home__carousel {
+    width: 75%;
+    padding-top: 12%;
+  }
+}
