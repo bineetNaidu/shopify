@@ -20,6 +20,11 @@ connectDB();
 app.use(express.json());
 app.use(logger('dev'));
 
+app.use('/api/p', productsRoutes);
+app.use('/api/p/:pID', reviewsRoutes);
+app.use('/auth', usersRoutes);
+app.use('/api/orders', ordersRoutes);
+
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
@@ -29,11 +34,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve('client', 'build', 'index.html'));
   });
 }
-
-app.use('/api/p', productsRoutes);
-app.use('/api/p/:pID', reviewsRoutes);
-app.use('/auth', usersRoutes);
-app.use('/api/orders', ordersRoutes);
 
 //! catch 404 and forward to error handler
 app.all('*', (req, res, next) => {
