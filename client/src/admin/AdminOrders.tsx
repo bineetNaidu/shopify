@@ -96,7 +96,7 @@ export default function NestedList() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {orders.map((o) => (
-            <ListItem button>
+            <ListItem button key={o._id}>
               <ListItemIcon>
                 <StarBorder />
               </ListItemIcon>

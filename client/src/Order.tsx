@@ -39,9 +39,7 @@ const Order = () => {
       const { data } = await Axios.get(`/api/orders/${user?.id}`, {
         headers: { Authorization: `Bearer ${user?.token}` },
       });
-      console.log(data);
       setOrders(data.orders);
-      console.log(user);
     })();
   }, [user]);
 
@@ -55,29 +53,37 @@ const Order = () => {
   return (
     <div className="order">
       <h1>{user?.username}'s Orders</h1>
-      {orders.map((o) => (
-        <div className="order__item" key={o._id}>
-          <button onClick={() => handleDelete(o._id)}>
-            <DeleteIcon />
-          </button>
-          <img src={o.product.images[0]} alt={o.product.name} />
-          <div className="order__details">
-            <h2>{o.product.name}</h2>
-            <h3>${o.totalPrice}</h3>
-            {o.isDelivered ? (
-              <p className="order__status--delivered">
-                {' '}
-                <span></span> - Has Been Delivered
-              </p>
-            ) : (
-              <p className="order__status--notDelivered">
-                {' '}
-                <span></span> - Has Not Been Delivered
-              </p>
-            )}
-          </div>
-        </div>
-      ))}
+      {orders.length ? (
+        <>
+          {orders.map((o) => (
+            <div className="order__item" key={o._id}>
+              <button onClick={() => handleDelete(o._id)}>
+                <DeleteIcon />
+              </button>
+              <img src={o.product.images[0]} alt={o.product.name} />
+              <div className="order__details">
+                <h2>{o.product.name}</h2>
+                <h3>${o.totalPrice}</h3>
+                {o.isDelivered ? (
+                  <p className="order__status--delivered">
+                    {' '}
+                    <span></span> - Has Been Delivered
+                  </p>
+                ) : (
+                  <p className="order__status--notDelivered">
+                    {' '}
+                    <span></span> - Has Not Been Delivered
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </>
+      ) : (
+        <h1 style={{ marginTop: '4rem', color: 'lightgrey' }}>
+          Looks Like You Have Not Made An Order
+        </h1>
+      )}
     </div>
   );
 };
