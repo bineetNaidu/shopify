@@ -21,3 +21,9 @@
   color: rgb(92, 80, 80);
   text-align: center;
 }
+
+@media (max-width: 548px) {
+  .productReview {
+    flex-direction: column;
+  }
+}

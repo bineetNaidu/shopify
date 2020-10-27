@@ -119,3 +119,29 @@
   letter-spacing: normal;
   color: #0e0e0e;
 }
+
+@media (max-width: 548px) {
+  .product__details {
+    flex-direction: column;
+  }
+
+  .product__dummy {
+    flex-direction: column;
+  }
+
+  .dummy__left {
+    border-right: none;
+    border-bottom: 1px solid #0e0e0e;
+  }
+  .dummy__right {
+    padding-top: 1rem;
+    border-left: none;
+    border-top: 1px solid #0e0e0e;
+  }
+  .product__left > img {
+    width: 100%;
+    object-fit: scale-down;
+    height: 200px;
+    padding: 2rem;
+  }
+}

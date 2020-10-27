@@ -77,3 +77,10 @@
   border: 1px solid lightgray;
   padding: 2rem 4rem;
 }
+
+@media (max-width: 548px) {
+  .cart {
+    flex-direction: column;
+    justify-content: center;
+  }
+}

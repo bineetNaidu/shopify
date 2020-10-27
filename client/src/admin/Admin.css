@@ -25,3 +25,17 @@
   height: 400px;
   overflow-y: scroll;
 }
+
+@media (max-width: 850px) {
+  .admin {
+    padding: 1rem;
+  }
+  .admin__content {
+    flex-direction: column;
+  }
+
+  .admin__products {
+    height: 300px;
+    overflow: scroll;
+  }
+}
