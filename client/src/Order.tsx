@@ -43,7 +43,7 @@ const Order = () => {
       setOrders(data.orders);
       console.log(user);
     })();
-  }, []);
+  }, [user]);
 
   const handleDelete = async (orderId: string) => {
     await Axios.delete(`/api/orders/${user.id}/${orderId}`, {
