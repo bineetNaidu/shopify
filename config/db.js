@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect('mongodb://localhost:27017/shopify', {
+    const conn = await mongoose.connect(process.env.DB, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
