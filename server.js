@@ -4,6 +4,7 @@ import connectDB from './config/db.js';
 import CreateError from 'http-errors';
 import dotenv from 'dotenv';
 import path from 'path';
+import cors from 'cors';
 
 import productsRoutes from './routes/product.js';
 import reviewsRoutes from './routes/review.js';
@@ -19,6 +20,7 @@ connectDB();
 
 app.use(express.json());
 app.use(logger('dev'));
+app.use(cors());
 
 app.use('/api/p', productsRoutes);
 app.use('/api/p/:pID', reviewsRoutes);

@@ -43,7 +43,7 @@ const Home = () => {
         const { data } = await Axios.get('/api/p');
         if (!data.products) throw new Error(data.error);
         const products: [P] = data.products;
-        setProducts(products.filter((p) => p.price < 13));
+        setProducts(products.filter((p) => p.price < 100));
       } catch (e) {
         setError(e.message);
       }

@@ -17,6 +17,7 @@
   width: 100%;
   object-fit: contain;
   height: 450px;
+  padding: 2rem;
 }
 
 .product__name {
