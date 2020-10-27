@@ -40,22 +40,16 @@ const App = () => {
         <Route exact path="/s/:pID" component={Product} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        {user ? (
+        <Route exact path="/orders" component={Order} />
+        <Route exact path="/cart" component={Cart} />
+        {user?.isAdmin ? (
           <>
-            <Route exact path="/orders" component={Order} />
-            <Route exact path="/cart" component={Cart} />
-            {user?.isAdmin ? (
-              <>
-                <Route exact path="/admin" component={Admin} />
-                <Route exact path="/admin/create" component={CreateProduct} />
-                <Route exact path="/admin/edit/:pID" component={EditProduct} />
-              </>
-            ) : (
-              <Redirect to="/" />
-            )}
+            <Route exact path="/admin" component={Admin} />
+            <Route exact path="/admin/create" component={CreateProduct} />
+            <Route exact path="/admin/edit/:pID" component={EditProduct} />
           </>
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/" />
         )}
       </Switch>
       <Footer />

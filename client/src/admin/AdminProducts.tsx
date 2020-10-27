@@ -85,7 +85,7 @@ const AdminProducts = () => {
                   <LoyaltyIcon />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={p.name} />
+              <ListItemText primary={`${p.name.substring(0, 40)}...`} />
               <ListItemSecondaryAction>
                 <IconButton edge="end" aria-label="link">
                   <Link to={`/s/${p._id}`}>

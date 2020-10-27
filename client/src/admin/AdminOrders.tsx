@@ -100,7 +100,7 @@ export default function NestedList() {
               <ListItemIcon>
                 <StarBorder />
               </ListItemIcon>
-              <ListItemText primary={o.product.name} />
+              <ListItemText primary={`${o.product.name.substring(0, 40)}...`} />
               <ListItemSecondaryAction>
                 <FormControlLabel
                   control={
