@@ -39,7 +39,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     if (username && password) {
       const [auth, , error] = await SetUser({ username, password }, 'login');
-      if (auth) {
+      if (!error) {
         dispatch({ type: 'SET_USER', user: auth });
         resetPss();
         resetUrsName();
