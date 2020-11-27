@@ -127,6 +127,7 @@ const Cart = () => {
             control={
               <Checkbox
                 checked={checked}
+                disabled={!cart.length}
                 onChange={() => setChecked(!checked)}
                 name="checkedA"
               />

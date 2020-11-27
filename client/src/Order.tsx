@@ -53,7 +53,7 @@ const Order = () => {
   return (
     <div className="order">
       <h1>{user?.username}'s Orders</h1>
-      {orders.length ? (
+      {orders?.length ? (
         <>
           {orders.map((o) => (
             <div className="order__item" key={o._id}>
