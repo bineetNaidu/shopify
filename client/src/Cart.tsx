@@ -70,6 +70,7 @@ const Cart = () => {
       }
       resetAddress();
       resetPostalCode();
+      dispatch({ type: 'EMPTY_CART' });
       history.push('/orders');
     }
   };

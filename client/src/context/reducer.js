@@ -46,6 +46,12 @@ export const reducer = (state, action) => {
         cart: newBasket,
       };
 
+    case 'EMPTY_CART':
+      return {
+        ...state,
+        cart: [],
+      };
+
     default:
       return state;
   }
