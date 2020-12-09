@@ -6,7 +6,7 @@ const Footer = () => {
     <div className="footer">
       <p>
         © 2020 Shopify. No rights reserved @
-        <a href="https://bineetnaidu.web.app">Bineet Naidu</a>
+        <a href="https://bineetnaidu-io.web.app">Bineet Naidu</a>
       </p>
     </div>
   );
