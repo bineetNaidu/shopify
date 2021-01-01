@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <div className="footer">
       <p>
-        © 2020 Shopify. No rights reserved @
+        © {new Date().getFullYear()} Shopify. No rights reserved @
         <a href="https://bineetnaidu-io.web.app">Bineet Naidu</a>
       </p>
     </div>
