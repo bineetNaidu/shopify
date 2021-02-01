@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
@@ -12,24 +13,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Axios from 'axios';
 import { useStateValue } from '../context/State.Context';
-import { Link } from 'react-router-dom';
+import { ReviewTypes } from '../utils/types';
 
 // Statics
 import './ProductReviews.css';
-
-interface ReviewTypes {
-  _id?: string;
-  comment: string;
-  rating: number;
-  user: {
-    id: string;
-    username: string;
-  };
-}
-
 interface Props {
   productId: string;
-  reviews: Array<ReviewTypes>;
+  reviews: ReviewTypes[];
 }
 
 const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {

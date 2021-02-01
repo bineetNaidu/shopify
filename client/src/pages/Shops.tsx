@@ -10,36 +10,14 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import CategoryIcon from '@material-ui/icons/Category';
 import ProductCard from '../components/ProductCard';
 import ErrorScreen from '../components/ErrorScreen';
+import { ProductType } from '../utils/types';
 
 // Statics
 import './Shops.css';
 
-interface ReviewTypes {
-  _id: string;
-  comment: string;
-  rating: number;
-  user: {
-    id: string;
-    username: string;
-  };
-}
-
-interface P {
-  varified: boolean;
-  images: string[];
-  price: number;
-  countInStock: number;
-  name: string;
-  _id: string;
-  category: string;
-  description: string;
-  reviews: ReviewTypes[];
-  // __v: string
-}
-
 const Shops = () => {
   // States
-  const [items, setItems] = useState<P[]>([]);
+  const [items, setItems] = useState<ProductType[]>([]);
   const [open, setOpen] = useState(true);
   const [error, setError] = useState<null | string>(null);
 
@@ -48,7 +26,7 @@ const Shops = () => {
     (async () => {
       try {
         const { data } = await Axios.get('/api/p');
-        const products: P[] = data.products;
+        const products: ProductType[] = data.products;
         setItems(products);
       } catch (e) {
         setError(e.message);

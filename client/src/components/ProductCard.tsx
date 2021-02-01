@@ -1,18 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { ReviewTypes } from '../utils/types';
 
 // Statics
 import './ProductCard.css';
-
-interface ReviewTypes {
-  _id: string;
-  comment: string;
-  rating: number;
-  user: {
-    id: string;
-    username: string;
-  };
-}
 
 interface Props {
   varified: boolean;

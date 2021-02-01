@@ -11,15 +11,7 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { useHistory } from 'react-router-dom';
 // Statics
 import './Cart.css';
-
-interface CartInterface {
-  image: string;
-  price: number;
-  inStock: number;
-  name: string;
-  id: string;
-  qty: number;
-}
+import { CartType } from '../utils/types';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -80,7 +72,7 @@ const Cart = () => {
       <div className="cart__left">
         {cart.length ? (
           <>
-            {cart.map((c: CartInterface) => (
+            {cart.map((c: CartType) => (
               <div className="cart__item" key={c.id}>
                 <button onClick={() => removeFromBasket(c.id)}>X</button>
                 <img src={c.image} alt={c.name} />

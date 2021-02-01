@@ -7,42 +7,19 @@ import ProductReviews from '../components/ProductReviews';
 import ErrorScreen from '../components/ErrorScreen';
 import { useStateValue } from '../context/State.Context';
 import Loaders from '../components/Loaders';
+import { ReviewTypes, ProductType } from '../utils/types';
 
 // Statics
 import './Product.css';
-
-interface ReviewTypes {
-  _id?: string;
-  comment: string;
-  rating: number;
-  user: {
-    id: string;
-    username: string;
-  };
-}
-
 interface RouterProps {
   pID: string;
 }
 
-interface P {
-  varified: boolean;
-  images: [string];
-  price: number;
-  countInStock: number;
-  name: string;
-  _id: string;
-  category: string;
-  description: string;
-  reviews: ReviewTypes[];
-  avgRating: number;
-  // __v: string
-}
 const Product: React.FC = () => {
   const { pID } = useParams<RouterProps>();
   const [, dispatch] = useStateValue();
   // States
-  const [product, setProduct] = useState<P>();
+  const [product, setProduct] = useState<ProductType>();
   const [reviews, setReviews] = useState<ReviewTypes[] | []>([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
@@ -54,7 +31,7 @@ const Product: React.FC = () => {
         const { data } = await Axios.get(`/api/p/${pID}`);
         if (!data.product) throw new Error(data.error);
         setLoading(false);
-        const productData: P = { ...data.product };
+        const productData: ProductType = { ...data.product };
         setReviews(productData.reviews);
         setProduct(productData);
       } catch (e) {

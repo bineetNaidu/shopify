@@ -19,28 +19,15 @@ import EditIcon from '@material-ui/icons/Edit';
 import LinkIcon from '@material-ui/icons/Link';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { ProductType } from '../../utils/types';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-interface P {
-  qty: number;
-  varified: boolean;
-  images: string[];
-  price: number;
-  countInStock: number;
-  name: string;
-  _id: string;
-  category: string;
-  description: string;
-  reviews: [];
-  // __v: string
-}
-
 const AdminProducts = () => {
   // States
-  const [products, setProducts] = useState<[P] | Array<P>>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [open, setOpen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -48,7 +35,7 @@ const AdminProducts = () => {
   useEffect(() => {
     (async () => {
       const { data } = await Axios.get('/api/p');
-      const products: [P] = data.products;
+      const products: ProductType[] = data.products;
       setProducts(products);
     })();
   }, []);

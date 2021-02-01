@@ -2,37 +2,13 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../context/State.Context';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { OrderType } from '../utils/types';
 // Statics
 import './Order.css';
-interface P {
-  varified: boolean;
-  images: [string];
-  price: number;
-  countInStock: number;
-  name: string;
-  _id: string;
-  category: string;
-  description: string;
-  reviews: [];
-  avgRating: number;
-  // __v: string
-}
-
-interface Order {
-  product: P;
-  user: string;
-  address: string;
-  postalCode: number;
-  price: number;
-  shippingPrice: boolean;
-  _id: string;
-  isDelivered: boolean;
-  totalPrice: number;
-}
 
 const Order = () => {
   const [{ user }] = useStateValue();
-  const [orders, setOrders] = useState<Array<Order>>([]);
+  const [orders, setOrders] = useState<OrderType[]>([]);
 
   useEffect(() => {
     (async () => {
