@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
@@ -28,6 +28,11 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
   const [comment, setComment] = useState<string>('');
   const [{ user }] = useStateValue();
   const [reviewsState, setReviewState] = useState([...reviews]);
+  const renderView = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    renderView.current?.scrollIntoView();
+  }, []);
 
   // Functions
   const handleComment = (
@@ -48,7 +53,7 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
       if (data.error) {
         return alert(data.error);
       }
-      setReviewState([reviewData, ...reviewsState]);
+      setReviewState([...reviewsState, reviewData]);
       setRating(1);
       setComment('');
     } else {
@@ -125,6 +130,7 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
               <Divider variant="inset" component="li" />
             </ListItem>
           ))}
+          <span ref={renderView}></span>
         </List>
       </div>
     </div>
