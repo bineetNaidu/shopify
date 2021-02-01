@@ -9,9 +9,9 @@ import checkout from '../utils/checkout';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { useHistory } from 'react-router-dom';
+import { CartType } from '../utils/types';
 // Statics
 import './Cart.css';
-import { CartType } from '../utils/types';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -130,7 +130,9 @@ const Cart = () => {
             type="submit"
             variant="contained"
             color="primary"
-            disabled={!cart.length}
+            disabled={
+              !cart.length && (cart as CartType[]).every((c) => c.inStock > 0)
+            }
           >
             Checkout
           </Button>
