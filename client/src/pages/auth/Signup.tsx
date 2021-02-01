@@ -11,10 +11,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { useStateValue } from '../../context/State.Context';
+import { SetUser } from '../../utils/SetUser';
+import { MethodEnum } from '../../utils/types';
 
 // Statics
 import './Auth.css';
-import { SetUser } from '../../utils/SetUser';
 
 const Signup: React.FC = () => {
   const history = useHistory();
@@ -39,9 +40,9 @@ const Signup: React.FC = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (username && password) {
-      const [auth, , error] = await SetUser(
+      const [auth, authorized, error] = await SetUser(
         { username, password, email },
-        'signup'
+        MethodEnum.Signup
       );
       if (auth) {
         dispatch({ type: 'SET_USER', user: auth });

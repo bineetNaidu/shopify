@@ -42,3 +42,16 @@ export interface CartType {
   id: string;
   qty: number;
 }
+
+export enum MethodEnum {
+  Login = 'login',
+  Signup = 'signup',
+}
+
+export interface UserType {
+  id: string;
+  username: string;
+  isAdmin: boolean;
+  email: string;
+  token: string;
+}

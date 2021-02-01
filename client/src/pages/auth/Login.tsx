@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import useFormState from '../../hooks/useFormState';
 import { useStateValue } from '../../context/State.Context';
 import { SetUser } from '../../utils/SetUser';
+import { MethodEnum } from '../../utils/types';
 
 // Statics
 import './Auth.css';
@@ -38,7 +39,10 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (username && password) {
-      const [auth, , error] = await SetUser({ username, password }, 'login');
+      const [auth, , error] = await SetUser(
+        { username, password },
+        MethodEnum.Login
+      );
       if (!error) {
         dispatch({ type: 'SET_USER', user: auth });
         resetPss();
