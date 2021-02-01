@@ -25,7 +25,15 @@ const seedDB = async () => {
       'https://images.unsplash.com/photo-1592921870583-aeafb0639ffe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60';
     const description = faker.lorem.sentence();
     const category = 'Electronics';
-    const product = new Product({ price, name, images, description, category });
+    const countInStock = faker.random.number(15);
+    const product = new Product({
+      price,
+      name,
+      images,
+      description,
+      category,
+      countInStock,
+    });
 
     for (let k = 0; k < 5; k++) {
       const rating = faker.random.number(5);
