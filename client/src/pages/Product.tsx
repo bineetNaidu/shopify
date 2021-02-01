@@ -3,10 +3,10 @@ import Axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import ProductReviews from './ProductReviews';
-import ErrorScreen from './ErrorScreen';
-import { useStateValue } from './context/State.Context';
-import Loaders from './Loaders';
+import ProductReviews from '../components/ProductReviews';
+import ErrorScreen from '../components/ErrorScreen';
+import { useStateValue } from '../context/State.Context';
+import Loaders from '../components/Loaders';
 
 // Statics
 import './Product.css';

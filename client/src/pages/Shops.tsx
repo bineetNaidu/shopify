@@ -1,6 +1,5 @@
-import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import ProductCard from './ProductCard';
+import Axios from 'axios';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
@@ -9,7 +8,8 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import CategoryIcon from '@material-ui/icons/Category';
-import ErrorScreen from './ErrorScreen';
+import ProductCard from '../components/ProductCard';
+import ErrorScreen from '../components/ErrorScreen';
 
 // Statics
 import './Shops.css';

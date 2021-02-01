@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import ProductCard from './ProductCard';
+import ProductCard from '../components/ProductCard';
 import { Link } from 'react-router-dom';
-import ErrorScreen from './ErrorScreen';
-import CarouselBar from './Carousel';
+import ErrorScreen from '../components/ErrorScreen';
+import CarouselBar from '../components/Carousel';
 
 // Statics
 import './Home.css';

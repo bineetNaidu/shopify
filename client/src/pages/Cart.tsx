@@ -1,11 +1,11 @@
 import React, { memo, useState } from 'react';
-import { useStateValue } from './context/State.Context';
+import { useStateValue } from '../context/State.Context';
 import TextField from '@material-ui/core/TextField';
-import useFormState from './hooks/useFormState';
+import useFormState from '../hooks/useFormState';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import checkout from './utils/checkout';
+import checkout from '../utils/checkout';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { useHistory } from 'react-router-dom';

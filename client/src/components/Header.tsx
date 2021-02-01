@@ -3,11 +3,11 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
 import { Link } from 'react-router-dom';
-import { useStateValue } from './context/State.Context';
+import { useStateValue } from '../context/State.Context';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Badge from '@material-ui/core/Badge';
-import { LocalUser } from './utils/SetUser';
+import { LocalUser } from '../utils/SetUser';
 
 // Statics
 import './Header.css';
