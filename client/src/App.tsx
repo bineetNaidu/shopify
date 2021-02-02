@@ -14,6 +14,7 @@ import Signup from './pages/auth/Signup';
 import { setLocalUser } from './utils/SetUser';
 import Cart from './pages/Cart';
 import Order from './pages/Order';
+import PrivateRoute from './components/PrivateRoute';
 
 // statics
 import './App.css';
@@ -40,8 +41,8 @@ const App = () => {
         <Route exact path="/s/:pID" component={Product} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/orders" component={Order} />
-        <Route exact path="/cart" component={Cart} />
+        <PrivateRoute exact path="/orders" component={Order} />
+        <PrivateRoute exact path="/cart" component={Cart} />
         {user?.isAdmin ? (
           <>
             <Route exact path="/admin" component={Admin} />
