@@ -11,6 +11,7 @@ import CategoryIcon from '@material-ui/icons/Category';
 import ProductCard from '../components/ProductCard';
 import ErrorScreen from '../components/ErrorScreen';
 import { ProductType } from '../utils/types';
+import SearchBar from '../components/SearchBar';
 
 // Statics
 import './Shops.css';
@@ -59,11 +60,17 @@ const Shops = () => {
           </div>
 
           <div className="shops__items">
-            {items.map((p) => (
-              <div key={p._id} className="shops__item">
-                <ProductCard {...p} />
-              </div>
-            ))}
+            <div className="shops__items--searchbar">
+              <SearchBar products={items} />
+            </div>
+
+            <div className="shops__items--lists">
+              {items.map((p) => (
+                <div key={p._id} className="shops__item">
+                  <ProductCard {...p} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ) : (

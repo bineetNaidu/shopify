@@ -13,6 +13,12 @@
   flex: 0.95;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.shops__items--lists {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .shops__item {
