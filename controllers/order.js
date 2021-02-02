@@ -51,16 +51,13 @@ export const createUserOrder = async (req, res) => {
     totalPrice,
   });
   if (!order) throw new ExpressError('Server Error!', 500);
-  order.user = orderUser._id;
   await order.save();
 
   const customerCharge = await stripe.charges.create({
-    amount: order.price * 100,
+    amount: order.totalPrice * 100,
     currency: 'inr',
     source: token,
-    description: `Shopify payment | order_id: { ${
-      order._id
-    } | transaction made at ${new Date.now()} }`,
+    description: `Shopify payment | order_id: ${order._id}`,
   });
 
   const payment = new Payment({
@@ -70,9 +67,14 @@ export const createUserOrder = async (req, res) => {
   await payment.save();
 
   if (payment.orderId.equals(order._id)) {
-    order.isPaid = true;
-    order.paymentId = payment._id;
+    order.set({
+      user: orderUser._id,
+      isPaid: true,
+      paymentId: payment._id,
+    });
     await order.save();
+
+    console.log(JSON.stringify(order, null, 2));
 
     res.json({
       success: true,
