@@ -1,18 +1,13 @@
 import JwtDecode from 'jwt-decode';
-import Axios from 'axios';
+import { MethodEnum, UserType } from './types';
+// import logUserIn from './logUserIn';
+// import signupUser from './signupUser';
+import axios from 'axios';
 
-interface Data {
+export interface Data {
   username: string;
   password: string | number;
   email?: string;
-}
-
-interface User {
-  id: string;
-  username: string;
-  isAdmin: boolean;
-  email: string;
-  token: string;
 }
 
 export const LocalUser = async (key: string, token: string) => {
@@ -26,7 +21,7 @@ export const LocalUser = async (key: string, token: string) => {
 };
 
 export const setLocalUser = (token: string) => {
-  let authUser: User = {
+  let authUser: UserType = {
     email: '',
     username: '',
     id: '',
@@ -34,7 +29,7 @@ export const setLocalUser = (token: string) => {
     token: '',
   };
   try {
-    const user: User = JwtDecode(token);
+    const user: UserType = JwtDecode(token);
     authUser = {
       id: user.id,
       username: user.username,
@@ -48,70 +43,80 @@ export const setLocalUser = (token: string) => {
   }
 };
 
-export const SetUser = async (userDetails: Data, method: string) => {
-  let authUser: User = {
-    email: '',
-    username: '',
-    id: '',
-    isAdmin: false,
-    token: '',
-  };
+export const SetUser = async (
+  userDetails: Data,
+  method: MethodEnum
+): Promise<(string | boolean | UserType | null)[]> => {
+  let authUser: UserType | null = null;
   let authorized = false;
-  let error;
+  let error = '';
+
+  if (!userDetails.password || !userDetails.username) {
+    authorized = false;
+    error = 'Please Provide us with your Credentials';
+  }
 
   try {
-    if (userDetails.username && userDetails.password) {
-      if (method === 'login') {
-        const { data } = await Axios.post('/auth/login', {
-          username: userDetails.username,
-          password: userDetails.password,
-        });
-        if (!data.error) {
-          await LocalUser('shopifyToken', data.token);
-          const user: User = JwtDecode(data.token);
-          authUser = {
-            id: user.id,
-            username: user.username,
-            isAdmin: user.isAdmin,
-            email: user.email,
-            token: data.token,
-          };
-          authorized = true;
-        } else {
-          authorized = false;
-          error = data.error;
-        }
-      } else if (method === 'signup') {
-        const { data } = await Axios.post('/auth/signup', {
-          username: userDetails.username,
-          password: userDetails.password,
-          email: userDetails.email,
-        });
-        if (!data.error) {
-          await LocalUser('shopifyToken', data.token);
-          const user: User = JwtDecode(data.token);
-          authUser = {
-            id: user.id,
-            username: user.username,
-            isAdmin: user.isAdmin,
-            email: user.email,
-            token: data.token,
-          };
-          authorized = true;
-        } else {
-          authorized = false;
-          error = data.error;
-        }
+    if (method === MethodEnum.Login) {
+      // logUserIn(userDetails).then((receivedData) => {
+      //   console.log(receivedData);
+      //   authUser = receivedData.authUser;
+      //   authorized = receivedData.authorized;
+      //   error = receivedData.error;
+      //   ready = true;
+      // });
+      const { data } = await axios.post('/auth/login', {
+        username: userDetails.username,
+        password: userDetails.password,
+      });
+      if (!data.error) {
+        await LocalUser('shopifyToken', data.token);
+        const user: UserType = JwtDecode(data.token);
+        authUser = {
+          id: user.id,
+          username: user.username,
+          isAdmin: user.isAdmin,
+          email: user.email,
+          token: data.token,
+        };
+        authorized = true;
       } else {
         authorized = false;
-        error = 'Please provide Method ( Signup | Login )';
+        error = data.error;
       }
-    } else {
-      authorized = false;
-      error = 'Please Provide us with your Credentials';
+    }
+
+    if (method === MethodEnum.Signup) {
+      // signupUser(userDetails).then((receivedData) => {
+      //   console.log(receivedData);
+
+      //   authUser = receivedData.authUser;
+      //   authorized = receivedData.authorized;
+      //   error = receivedData.error;
+      // });
+      const { data } = await axios.post('/auth/signup', {
+        username: userDetails.username,
+        password: userDetails.password,
+        email: userDetails.email,
+      });
+      if (!data.error) {
+        await LocalUser('shopifyToken', data.token);
+        const user: UserType = JwtDecode(data.token);
+        authUser = {
+          id: user.id,
+          username: user.username,
+          isAdmin: user.isAdmin,
+          email: user.email,
+          token: data.token,
+        };
+        authorized = true;
+      } else {
+        authorized = false;
+        error = data.error;
+      }
     }
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
   }
 
   return [authUser, authorized, error];

@@ -21,6 +21,7 @@ export const signupUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
+  if (!user) throw new ExpressError('User with the given user does not exist!');
   let isMatch = await user.comparePassword(password);
 
   if (isMatch) {

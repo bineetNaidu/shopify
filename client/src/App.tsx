@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
-import Header from './Header';
+import Header from './components/Header';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Home from './Home';
-import Shops from './Shops';
-import Product from './Product';
-import Footer from './Footer';
-import Admin from './admin/Admin';
-import CreateProduct from './admin/CreateProduct';
-import EditProduct from './admin/EditProduct';
+import Home from './pages/Home';
+import Shops from './pages/Shops';
+import Product from './pages/Product';
+import Footer from './components/Footer';
+import Admin from './pages/admin/Admin';
+import CreateProduct from './pages/admin/CreateProduct';
+import EditProduct from './pages/admin/EditProduct';
 import { useStateValue } from './context/State.Context';
-import Login from './auth/Login';
-import Signup from './auth/Signup';
+import Login from './pages/auth/Login';
+import Signup from './pages/auth/Signup';
 import { setLocalUser } from './utils/SetUser';
-import Cart from './Cart';
-import Order from './Order';
+import Cart from './pages/Cart';
+import Order from './pages/Order';
+import PrivateRoute from './components/PrivateRoute';
 
 // statics
 import './App.css';
@@ -40,8 +41,8 @@ const App = () => {
         <Route exact path="/s/:pID" component={Product} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/orders" component={Order} />
-        <Route exact path="/cart" component={Cart} />
+        <PrivateRoute exact path="/orders" component={Order} />
+        <PrivateRoute exact path="/cart" component={Cart} />
         {user?.isAdmin ? (
           <>
             <Route exact path="/admin" component={Admin} />

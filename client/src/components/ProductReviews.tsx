@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
+import { Link } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
@@ -11,25 +12,14 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Axios from 'axios';
-import { useStateValue } from './context/State.Context';
-import { Link } from 'react-router-dom';
+import { useStateValue } from '../context/State.Context';
+import { ReviewTypes } from '../utils/types';
 
 // Statics
 import './ProductReviews.css';
-
-interface ReviewTypes {
-  _id?: string;
-  comment: string;
-  rating: number;
-  user: {
-    id: string;
-    username: string;
-  };
-}
-
 interface Props {
   productId: string;
-  reviews: Array<ReviewTypes>;
+  reviews: ReviewTypes[];
 }
 
 const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
@@ -40,31 +30,44 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
   const [reviewsState, setReviewState] = useState([...reviews]);
 
   // Functions
-  const handleComment = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => setComment(e.target.value);
+  const handleComment = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
+      setComment(e.target.value),
+    []
+  );
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (comment && rating) {
-      const reviewData = {
-        comment,
-        rating,
-        user: { id: user.id, username: user.username },
-      };
-      const { data } = await Axios.post(`/api/p/${productId}`, reviewData, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      if (data.error) {
-        return alert(data.error);
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (comment && rating) {
+        const reviewData = {
+          comment,
+          rating,
+          user: { id: user.id, username: user.username },
+        };
+        const { data } = await Axios.post(`/api/p/${productId}`, reviewData, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        if (data.error) {
+          return alert(data.error);
+        }
+        setReviewState([...reviewsState, reviewData]);
+        setRating(1);
+        setComment('');
+      } else {
+        alert('Comment And Rating is Required!');
       }
-      setReviewState([reviewData, ...reviewsState]);
-      setRating(1);
-      setComment('');
-    } else {
-      alert('Comment And Rating is Required!');
-    }
-  };
+    },
+    [
+      comment,
+      productId,
+      rating,
+      reviewsState,
+      user.id,
+      user.token,
+      user.username,
+    ]
+  );
 
   return (
     <div className="productReview">
@@ -141,4 +144,4 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
   );
 };
 
-export default ProductReviews;
+export default memo(ProductReviews);

@@ -6,9 +6,11 @@ export default async (
   address: string,
   postalCode: number,
   price: number,
-  shippingPrice: boolean
+  shippingPrice: boolean,
+  token: string
 ) => {
   const orderData = {
+    token,
     shipments: {
       address,
       postalCode,

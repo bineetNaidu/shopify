@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
-import { useStateValue } from '../context/State.Context';
+import { useHistory } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-import useFormState from '../hooks/useFormState';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import { useHistory } from 'react-router-dom';
+import useFormState from '../../hooks/useFormState';
+import { useStateValue } from '../../context/State.Context';
+import { SetUser } from '../../utils/SetUser';
+import { MethodEnum } from '../../utils/types';
 
 // Statics
 import './Auth.css';
-import { SetUser } from '../utils/SetUser';
 
-const Signup: React.FC = () => {
+const Login: React.FC = () => {
   const history = useHistory();
   // Context
   const [, dispatch] = useStateValue();
   const [showPassword, setShowPassword] = useState(false);
   const [password, handlePassword, resetPss] = useFormState('');
   const [username, handleUsername, resetUrsName] = useFormState('');
-  const [email, handleEmail, resetEmail] = useFormState('');
 
   // Functions
   const handleClickShowPassword = () => {
@@ -40,14 +40,13 @@ const Signup: React.FC = () => {
     e.preventDefault();
     if (username && password) {
       const [auth, , error] = await SetUser(
-        { username, password, email },
-        'signup'
+        { username, password },
+        MethodEnum.Login
       );
-      if (auth) {
+      if (!error) {
         dispatch({ type: 'SET_USER', user: auth });
         resetPss();
         resetUrsName();
-        resetEmail();
         history.push('/');
       } else {
         alert(error);
@@ -60,17 +59,9 @@ const Signup: React.FC = () => {
   return (
     <div className="login">
       <form onSubmit={handleLogin}>
-        <h3>Signup with Shopify</h3>
+        <h3>Login to Shopify</h3>
         <TextField
-          label="Email"
-          value={email}
-          type="email"
-          onChange={handleEmail}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Username"
+          label="UserName"
           value={username}
           onChange={handleUsername}
           fullWidth
@@ -100,11 +91,11 @@ const Signup: React.FC = () => {
           />
         </FormControl>
         <Button type="submit" color="primary" variant="contained" fullWidth>
-          Signup!
+          Login!
         </Button>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default Login;

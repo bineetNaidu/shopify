@@ -1,25 +1,18 @@
-import React, { memo, useState } from 'react';
-import { useStateValue } from './context/State.Context';
+import React, { memo, useState, useCallback } from 'react';
+import StripeCheckout from 'react-stripe-checkout';
+import { useStateValue } from '../context/State.Context';
 import TextField from '@material-ui/core/TextField';
-import useFormState from './hooks/useFormState';
+import useFormState from '../hooks/useFormState';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import checkout from './utils/checkout';
+import checkout from '../utils/checkout';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { useHistory } from 'react-router-dom';
+import { CartType } from '../utils/types';
 // Statics
 import './Cart.css';
-
-interface CartInterface {
-  image: string;
-  price: number;
-  inStock: number;
-  name: string;
-  id: string;
-  qty: number;
-}
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -39,48 +32,67 @@ const Cart = () => {
     checked ? 5 : 0
   );
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') return;
-    setOpenAlert(false);
-    setMsg('');
-  };
+  const handleClose = useCallback(
+    (event?: React.SyntheticEvent, reason?: string) => {
+      if (reason === 'clickaway') return;
+      setOpenAlert(false);
+      setMsg('');
+    },
+    []
+  );
 
-  const removeFromBasket = (id: string) => {
-    dispatch({
-      type: 'REMOVE_FROM_CART',
-      id,
-    });
-  };
+  const removeFromBasket = useCallback(
+    (id: string) => {
+      dispatch({
+        type: 'REMOVE_FROM_CART',
+        id,
+      });
+    },
+    [dispatch]
+  );
 
-  const handleCheckout = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (user && address && postalCode) {
-      for (let orderItem of cart) {
-        const res = await checkout(
-          orderItem.id,
-          user,
-          address,
-          postalCode,
-          orderItem.price,
-          checked
-        );
-        // alert(res);
-        setMsg(res);
-        setOpenAlert(true);
+  const handleCheckout = useCallback(
+    async (token: string) => {
+      if (user && address && postalCode) {
+        for (let orderItem of cart) {
+          const res = await checkout(
+            orderItem.id,
+            user,
+            address,
+            postalCode,
+            orderItem.price,
+            checked,
+            token
+          );
+          // alert(res);
+          setMsg(res);
+          setOpenAlert(true);
+        }
+        resetAddress();
+        resetPostalCode();
+        dispatch({ type: 'EMPTY_CART' });
+        history.push('/orders');
       }
-      resetAddress();
-      resetPostalCode();
-      dispatch({ type: 'EMPTY_CART' });
-      history.push('/orders');
-    }
-  };
+    },
+    [
+      address,
+      cart,
+      checked,
+      dispatch,
+      history,
+      postalCode,
+      resetAddress,
+      resetPostalCode,
+      user,
+    ]
+  );
 
   return (
     <div className="cart">
       <div className="cart__left">
         {cart.length ? (
           <>
-            {cart.map((c: CartInterface) => (
+            {cart.map((c: CartType) => (
               <div className="cart__item" key={c.id}>
                 <button onClick={() => removeFromBasket(c.id)}>X</button>
                 <img src={c.image} alt={c.name} />
@@ -102,7 +114,7 @@ const Cart = () => {
         )}
       </div>
       <div className="cart__right">
-        <form onSubmit={handleCheckout}>
+        <form onSubmit={(e) => e.preventDefault()}>
           <h1>Proceed Checkout</h1>
           <TextField
             value={address}
@@ -134,14 +146,24 @@ const Cart = () => {
             }
             label="Shipping Cost ($5)"
           />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={!cart.length}
-          >
-            Checkout
-          </Button>
+          <StripeCheckout
+            children={
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={
+                  !cart.length &&
+                  (cart as CartType[]).every((c) => c.inStock > 0)
+                }
+              >
+                Checkout with stripe!
+              </Button>
+            }
+            token={({ id }) => handleCheckout(id)}
+            stripeKey="pk_test_51I5QvsF2iPpVWbtjhgK6siJ7bgNATSNmADtr6W2jADJ1ghELvpxtdUj4tYiHsQa96Bn6BphdbffG8Wuql0OMVbrw000qedq4PR"
+            amount={totalPrice * 100}
+            email={user.email}
+          />
         </form>
       </div>
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleClose}>

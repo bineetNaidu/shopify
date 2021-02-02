@@ -1,18 +1,9 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { ReviewTypes } from '../utils/types';
 
 // Statics
 import './ProductCard.css';
-
-interface ReviewTypes {
-  _id: string;
-  comment: string;
-  rating: number;
-  user: {
-    id: string;
-    username: string;
-  };
-}
 
 interface Props {
   varified: boolean;
@@ -36,7 +27,10 @@ const ProductCard: React.FC<Props> = ({
   _id,
 }) => {
   const history = useHistory();
-  const handleClick = () => history.push(`/s/${_id}`);
+  const handleClick = useCallback(() => history.push(`/s/${_id}`), [
+    _id,
+    history,
+  ]);
 
   return (
     <div className="productCard" onClick={handleClick}>
@@ -50,4 +44,4 @@ const ProductCard: React.FC<Props> = ({
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

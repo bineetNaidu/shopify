@@ -1,39 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import Axios from 'axios';
-import ProductCard from './ProductCard';
+import ProductCard from '../components/ProductCard';
 import { Link } from 'react-router-dom';
-import ErrorScreen from './ErrorScreen';
-import CarouselBar from './Carousel';
+import ErrorScreen from '../components/ErrorScreen';
+import CarouselBar from '../components/Carousel';
+import { ProductType } from '../utils/types';
 
 // Statics
 import './Home.css';
 
-interface ReviewTypes {
-  _id: string;
-  comment: string;
-  rating: number;
-  user: {
-    id: string;
-    username: string;
-  };
-}
-
-interface P {
-  varified: boolean;
-  images: string[];
-  price: number;
-  countInStock: number;
-  name: string;
-  _id: string;
-  category: string;
-  description: string;
-  reviews: ReviewTypes[];
-  // __v: string
-}
-
 const Home = () => {
   // States
-  const [products, setProducts] = useState<[P] | Array<P>>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [error, setError] = useState<null | string>(null);
 
   // Hooks
@@ -42,7 +20,7 @@ const Home = () => {
       try {
         const { data } = await Axios.get('/api/p');
         if (!data.products) throw new Error(data.error);
-        const products: [P] = data.products;
+        const products: ProductType[] = data.products;
         setProducts(products.filter((p) => p.price < 100));
       } catch (e) {
         setError(e.message);
@@ -74,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default memo(Home);

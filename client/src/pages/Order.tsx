@@ -1,38 +1,14 @@
+import React, { useState, useEffect, memo, useCallback } from 'react';
 import Axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { useStateValue } from './context/State.Context';
+import { useStateValue } from '../context/State.Context';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { OrderType } from '../utils/types';
 // Statics
 import './Order.css';
-interface P {
-  varified: boolean;
-  images: [string];
-  price: number;
-  countInStock: number;
-  name: string;
-  _id: string;
-  category: string;
-  description: string;
-  reviews: [];
-  avgRating: number;
-  // __v: string
-}
-
-interface Order {
-  product: P;
-  user: string;
-  address: string;
-  postalCode: number;
-  price: number;
-  shippingPrice: boolean;
-  _id: string;
-  isDelivered: boolean;
-  totalPrice: number;
-}
 
 const Order = () => {
   const [{ user }] = useStateValue();
-  const [orders, setOrders] = useState<Array<Order>>([]);
+  const [orders, setOrders] = useState<OrderType[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -43,12 +19,15 @@ const Order = () => {
     })();
   }, [user]);
 
-  const handleDelete = async (orderId: string) => {
-    await Axios.delete(`/api/orders/${user.id}/${orderId}`, {
-      headers: { Authorization: `Bearer ${user?.token}` },
-    });
-    setOrders(orders.filter((o) => o._id !== orderId));
-  };
+  const handleDelete = useCallback(
+    async (orderId: string) => {
+      await Axios.delete(`/api/orders/${user.id}/${orderId}`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
+      setOrders(orders.filter((o) => o._id !== orderId));
+    },
+    [orders, user]
+  );
 
   return (
     <div className="order">
@@ -88,4 +67,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default memo(Order);

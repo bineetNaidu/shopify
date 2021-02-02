@@ -39,6 +39,10 @@ const OrderSchema = new Schema({
   deliveredAt: {
     type: Date,
   },
+  paymentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Payment',
+  },
 });
 
 export default mongoose.model('Order', OrderSchema);

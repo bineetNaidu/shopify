@@ -4,7 +4,7 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 // Statics
 import './ErrorScreen.css';
-import errorLogo from './error.svg';
+import errorLogo from '../assets/error.svg';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
