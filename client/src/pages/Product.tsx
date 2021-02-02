@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useCallback } from 'react';
 import Axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -42,7 +42,7 @@ const Product: React.FC = () => {
   }, [pID]);
 
   // Functions
-  const addToCart = () => {
+  const addToCart = useCallback(() => {
     // const data = { id: product?._id, qty: 1 };
     const data = {
       id: product?._id,
@@ -53,7 +53,7 @@ const Product: React.FC = () => {
       qty: 1,
     };
     dispatch({ type: 'ADD_TO_CART', item: data });
-  };
+  }, [dispatch, product]);
 
   return (
     <>

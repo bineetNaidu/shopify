@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, memo, useCallback, useState } from 'react';
 import { ProductType } from '../utils/types';
 import InputBase from '@material-ui/core/InputBase';
 import {
@@ -67,17 +67,20 @@ const SearchBar: FC<Props> = ({ products }) => {
   const [searchedArr, setSearchedArr] = useState<ProductType[]>([]);
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleSearchFilterings = (searchTerms: string) => {
-    if (searchTerms) {
-      const searchTermRegex = new RegExp(`^${searchTerms}`, 'gi');
-      const filteredItems = products.filter((p) =>
-        p.name.match(searchTermRegex)
-      );
-      setSearchedArr(filteredItems);
-    } else {
-      setSearchedArr(products);
-    }
-  };
+  const handleSearchFilterings = useCallback(
+    (searchTerms: string) => {
+      if (searchTerms) {
+        const searchTermRegex = new RegExp(`^${searchTerms}`, 'gi');
+        const filteredItems = products.filter((p) =>
+          p.name.match(searchTermRegex)
+        );
+        setSearchedArr(filteredItems);
+      } else {
+        setSearchedArr(products);
+      }
+    },
+    [products]
+  );
 
   return (
     <div className="search">
@@ -123,4 +126,4 @@ const SearchBar: FC<Props> = ({ products }) => {
   );
 };
 
-export default SearchBar;
+export default memo(SearchBar);

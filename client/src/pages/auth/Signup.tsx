@@ -40,7 +40,7 @@ const Signup: React.FC = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (username && password) {
-      const [auth, authorized, error] = await SetUser(
+      const [auth, , error] = await SetUser(
         { username, password, email },
         MethodEnum.Signup
       );

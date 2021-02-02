@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import { useStateValue } from '../context/State.Context';
 import TextField from '@material-ui/core/TextField';
@@ -32,41 +32,60 @@ const Cart = () => {
     checked ? 5 : 0
   );
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') return;
-    setOpenAlert(false);
-    setMsg('');
-  };
+  const handleClose = useCallback(
+    (event?: React.SyntheticEvent, reason?: string) => {
+      if (reason === 'clickaway') return;
+      setOpenAlert(false);
+      setMsg('');
+    },
+    []
+  );
 
-  const removeFromBasket = (id: string) => {
-    dispatch({
-      type: 'REMOVE_FROM_CART',
-      id,
-    });
-  };
+  const removeFromBasket = useCallback(
+    (id: string) => {
+      dispatch({
+        type: 'REMOVE_FROM_CART',
+        id,
+      });
+    },
+    [dispatch]
+  );
 
-  const handleCheckout = async (token: string) => {
-    if (user && address && postalCode) {
-      for (let orderItem of cart) {
-        const res = await checkout(
-          orderItem.id,
-          user,
-          address,
-          postalCode,
-          orderItem.price,
-          checked,
-          token
-        );
-        // alert(res);
-        setMsg(res);
-        setOpenAlert(true);
+  const handleCheckout = useCallback(
+    async (token: string) => {
+      if (user && address && postalCode) {
+        for (let orderItem of cart) {
+          const res = await checkout(
+            orderItem.id,
+            user,
+            address,
+            postalCode,
+            orderItem.price,
+            checked,
+            token
+          );
+          // alert(res);
+          setMsg(res);
+          setOpenAlert(true);
+        }
+        resetAddress();
+        resetPostalCode();
+        dispatch({ type: 'EMPTY_CART' });
+        history.push('/orders');
       }
-      resetAddress();
-      resetPostalCode();
-      dispatch({ type: 'EMPTY_CART' });
-      history.push('/orders');
-    }
-  };
+    },
+    [
+      address,
+      cart,
+      checked,
+      dispatch,
+      history,
+      postalCode,
+      resetAddress,
+      resetPostalCode,
+      user,
+    ]
+  );
 
   return (
     <div className="cart">

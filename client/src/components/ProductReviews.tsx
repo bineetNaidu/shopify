@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { Link } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
@@ -30,31 +30,44 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
   const [reviewsState, setReviewState] = useState([...reviews]);
 
   // Functions
-  const handleComment = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => setComment(e.target.value);
+  const handleComment = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
+      setComment(e.target.value),
+    []
+  );
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (comment && rating) {
-      const reviewData = {
-        comment,
-        rating,
-        user: { id: user.id, username: user.username },
-      };
-      const { data } = await Axios.post(`/api/p/${productId}`, reviewData, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      if (data.error) {
-        return alert(data.error);
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (comment && rating) {
+        const reviewData = {
+          comment,
+          rating,
+          user: { id: user.id, username: user.username },
+        };
+        const { data } = await Axios.post(`/api/p/${productId}`, reviewData, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        if (data.error) {
+          return alert(data.error);
+        }
+        setReviewState([...reviewsState, reviewData]);
+        setRating(1);
+        setComment('');
+      } else {
+        alert('Comment And Rating is Required!');
       }
-      setReviewState([...reviewsState, reviewData]);
-      setRating(1);
-      setComment('');
-    } else {
-      alert('Comment And Rating is Required!');
-    }
-  };
+    },
+    [
+      comment,
+      productId,
+      rating,
+      reviewsState,
+      user.id,
+      user.token,
+      user.username,
+    ]
+  );
 
   return (
     <div className="productReview">
@@ -131,4 +144,4 @@ const ProductReviews: React.FC<Props> = ({ productId, reviews }) => {
   );
 };
 
-export default ProductReviews;
+export default memo(ProductReviews);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import Axios from 'axios';
 import ProductCard from '../components/ProductCard';
 import { Link } from 'react-router-dom';
@@ -52,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default memo(Home);

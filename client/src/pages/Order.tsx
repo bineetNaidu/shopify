@@ -1,5 +1,5 @@
+import React, { useState, useEffect, memo, useCallback } from 'react';
 import Axios from 'axios';
-import React, { useState, useEffect } from 'react';
 import { useStateValue } from '../context/State.Context';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { OrderType } from '../utils/types';
@@ -19,12 +19,15 @@ const Order = () => {
     })();
   }, [user]);
 
-  const handleDelete = async (orderId: string) => {
-    await Axios.delete(`/api/orders/${user.id}/${orderId}`, {
-      headers: { Authorization: `Bearer ${user?.token}` },
-    });
-    setOrders(orders.filter((o) => o._id !== orderId));
-  };
+  const handleDelete = useCallback(
+    async (orderId: string) => {
+      await Axios.delete(`/api/orders/${user.id}/${orderId}`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
+      setOrders(orders.filter((o) => o._id !== orderId));
+    },
+    [orders, user]
+  );
 
   return (
     <div className="order">
@@ -64,4 +67,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default memo(Order);

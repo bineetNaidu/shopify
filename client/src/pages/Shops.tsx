@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import Axios from 'axios';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
@@ -80,4 +80,4 @@ const Shops = () => {
   );
 };
 
-export default Shops;
+export default memo(Shops);
