@@ -23,6 +23,7 @@
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
+    "react-stripe-checkout": "^2.6.3",
     "typescript": "^3.7.5"
   },
   "scripts": {

@@ -1,4 +1,5 @@
 import React, { memo, useState } from 'react';
+import StripeCheckout from 'react-stripe-checkout';
 import { useStateValue } from '../context/State.Context';
 import TextField from '@material-ui/core/TextField';
 import useFormState from '../hooks/useFormState';
@@ -44,8 +45,7 @@ const Cart = () => {
     });
   };
 
-  const handleCheckout = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleCheckout = async (token: string) => {
     if (user && address && postalCode) {
       for (let orderItem of cart) {
         const res = await checkout(
@@ -54,7 +54,8 @@ const Cart = () => {
           address,
           postalCode,
           orderItem.price,
-          checked
+          checked,
+          token
         );
         // alert(res);
         setMsg(res);
@@ -94,7 +95,7 @@ const Cart = () => {
         )}
       </div>
       <div className="cart__right">
-        <form onSubmit={handleCheckout}>
+        <form onSubmit={(e) => e.preventDefault()}>
           <h1>Proceed Checkout</h1>
           <TextField
             value={address}
@@ -126,16 +127,24 @@ const Cart = () => {
             }
             label="Shipping Cost ($5)"
           />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={
-              !cart.length && (cart as CartType[]).every((c) => c.inStock > 0)
+          <StripeCheckout
+            children={
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={
+                  !cart.length &&
+                  (cart as CartType[]).every((c) => c.inStock > 0)
+                }
+              >
+                Checkout with stripe!
+              </Button>
             }
-          >
-            Checkout
-          </Button>
+            token={({ id }) => handleCheckout(id)}
+            stripeKey="pk_test_51I5QvsF2iPpVWbtjhgK6siJ7bgNATSNmADtr6W2jADJ1ghELvpxtdUj4tYiHsQa96Bn6BphdbffG8Wuql0OMVbrw000qedq4PR"
+            amount={totalPrice * 100}
+            email={user.email}
+          />
         </form>
       </div>
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleClose}>
