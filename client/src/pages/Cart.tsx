@@ -159,7 +159,14 @@ const Cart = () => {
                 Checkout with stripe!
               </Button>
             }
-            token={({ id }) => handleCheckout(id)}
+            token={({ id }) => {
+              if (
+                !cart.length &&
+                (cart as CartType[]).every((c) => c.inStock > 0)
+              ) {
+                handleCheckout(id);
+              }
+            }}
             stripeKey="pk_test_51I5QvsF2iPpVWbtjhgK6siJ7bgNATSNmADtr6W2jADJ1ghELvpxtdUj4tYiHsQa96Bn6BphdbffG8Wuql0OMVbrw000qedq4PR"
             amount={totalPrice * 100}
             email={user.email}

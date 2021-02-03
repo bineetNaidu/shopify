@@ -88,7 +88,7 @@ const CreateProduct = () => {
         resetDesc();
         resetCountInStock();
         resetCtg();
-        return history.push(`/s/${pID}`);
+        return history.push(`/admin`);
       } else {
         alert('Please Fill Out the Fields');
       }
